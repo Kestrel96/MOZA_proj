@@ -1,7 +1,15 @@
-function [outputArg1,outputArg2] = run_sim(inputArg1,inputArg2)
+function [results] = run_sim(params)
 %RUN_SIM Summary of this function goes here
 %   Detailed explanation goes here
-outputArg1 = inputArg1;
-outputArg2 = inputArg2;
+
+%replace spice_string with path to SPICE:
+%----------------------------------
+spice_string="XVIIx64.exe";
+%----------------------------------
+
+modify_params(params);
+system(spice_string+" -Run -b kask4.asc");
+results=LTspice2Matlab("kask4.raw");
+
 end
 

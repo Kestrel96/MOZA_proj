@@ -19,7 +19,16 @@ CEE e2 N001 {CEE}
 .lib C:\Users\Kuba\Documents\LTspiceXVII\lib\cmp\standard.dio
 .ac dec 5 1 1G
 ;op
-* .PARAM REE1=5\n.PARAM REE2=8\n.PARAM CEE=50p\n.PARAM CG=50p\n.PARAM RE=200\n.PARAM RC2=81\n.PARAM RC3=330\n.PARAM Voff=0\n.PARAM Vs=0.1\n.PARAM fs=1k
+.PARAM REE1=5
+.PARAM REE2=8
+.PARAM CEE=50p
+.PARAM CG=50p
+.PARAM RE=200
+.PARAM RC2=81
+.PARAM RC3=330
+.PARAM Voff=0
+.PARAM Vs=0.1
+.PARAM fs=1k
 .MEAS AC A0 FIND mag(V(out)) AT 1KHz
 .MEAS AC fg FIND freq WHEN mag(V(out))=A0/sqrt(2) FALL=LAST
 .MEAS AC GBW PARAM A0*fg
@@ -27,7 +36,6 @@ CEE e2 N001 {CEE}
 .MEAS TRAN Vmax max V(out)
 .MEAS TRAN Vmin min V(out)
 .MEAS TRAN Vpp PARAM Vmax-Vmin
-.include params.inc
 .lib modele.mod
 .backanno
 .end

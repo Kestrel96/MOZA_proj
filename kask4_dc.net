@@ -1,0 +1,34 @@
+* C:\Projects\Matlab\MOZA_proj\kask4_dc.asc
+VG in 0 SINE({Voff} {Vs} {fs}) AC 1
+VCC c1 0 9V
+RE1 e1 N002 {RE}
+RC2 c1 c2 {RC2}
+RC3 out N002 {RC3}
+REE1 e2 e1 {REE1}
+RE2 e2 N002 {RE}
+VSS 0 N002 9V
+RB2 0 b3 510
+C2 0 b3 100n
+D2 b3 c1 DZ6V8
+XQ1 c1 in e1 BJTN
+XQ2 c2 0 e2 BJTN
+XQ3 out b3 c2 BJTP
+REE2 N001 e1 {REE2}
+CEE e2 N001 {CEE}
+.model D D
+.lib C:\Users\Kuba\Documents\LTspiceXVII\lib\cmp\standard.dio
+* .ac dec 5 1 1G
+* .op
+* .PARAM REE1=5\n.PARAM REE2=8\n.PARAM CEE=50p\n.PARAM CG=50p\n.PARAM RE=200\n.PARAM RC2=81\n.PARAM RC3=330\n.PARAM Voff=0\n.PARAM Vs=0.1\n.PARAM fs=1k
+.MEAS AC A0 FIND mag(V(out)) AT 1KHz
+.MEAS AC fg FIND freq WHEN mag(V(out))=A0/sqrt(2) FALL=LAST
+.MEAS AC GBW PARAM A0*fg
+;tran 0 {3/fs} 0 {0.001/fs}
+.MEAS TRAN Vmax max V(out)
+.MEAS TRAN Vmin min V(out)
+.MEAS TRAN Vpp PARAM Vmax-Vmin
+.include params.inc
+.dc VG -0.1 0.1 0.001
+.lib modele.mod
+.backanno
+.end

@@ -1,9 +1,9 @@
 %% starting point results
 
 clear
-%close all;
+close all;
 x0=[15 3 50 50 230 81 300];
-%x0=[10 30 150 500 100 50 50];
+%x0=[10 80 150 500 100 50 50];
 
 out_ac=run_sim(x0,"kask4_ac");
 freq_0=out_ac.freq_vect;
@@ -32,7 +32,7 @@ lb=[0 0 0 0 0 0 0]; ub=[10 10 10 10 10 10 10];
 
 %% optimize
 fun=@(xs) obj_fun(xs2x(xs));
-opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfval','optimplotx'},'FinDiffRelStep',1e-2);
+opts=optimoptions('fmincon','Algorithm',"interior-point","EnableFeasibilityMode",true,'Display','iter-detailed','PlotFcn',{'optimplotfval','optimplotx'},'FinDiffRelStep',1e-2);
 x_opt=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,@nonlcon,opts);
 
 %% compare results
@@ -42,7 +42,7 @@ freq=out_ac.freq_vect;
 Aac=out_ac.variable_mat(6,:);
 fg=get_fg(Aac,freq);
 
-figure(2)
+figure(3)
 semilogx(freq_0,real(Aac_0),'Color','blue')
 xline(fg_0,"--","Color",'blue')
 yline(real(Aac_0(1))-3,"--")

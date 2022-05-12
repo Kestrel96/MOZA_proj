@@ -11,7 +11,7 @@ b=boost(Aac);
 
 
 
- figure(1)
+ figure(2)
  semilogx(freq,real(Aac))
  xline(fg,"--","Color",'blue')
  yline(real(Aac(1))-3,"--")

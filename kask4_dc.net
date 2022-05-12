@@ -28,7 +28,7 @@ CEE e2 N001 {CEE}
 .MEAS TRAN Vmin min V(out)
 .MEAS TRAN Vpp PARAM Vmax-Vmin
 .include params.inc
-.dc VG -0.1 0.1 0.001
+.dc VG -0.001 0.001 0.001
 .lib modele.mod
 .backanno
 .end

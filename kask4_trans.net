@@ -1,5 +1,5 @@
 * C:\Projects\Matlab\MOZA_proj\kask4_trans.asc
-VG in 0 SINE({Voff} {Vs} {fs}) AC 1
+VG in 0 SINE({Voff} 0.0001 {fs}) AC 1
 VCC c1 0 9V
 RE1 e1 N002 {RE}
 RC2 c1 c2 {RC2}
@@ -23,12 +23,12 @@ CEE e2 N001 {CEE}
 .MEAS AC A0 FIND mag(V(out)) AT 1KHz
 .MEAS AC fg FIND freq WHEN mag(V(out))=A0/sqrt(2) FALL=LAST
 .MEAS AC GBW PARAM A0*fg
-;tran 0 {3/fs} 0 {0.001/fs}
+.tran 0 {3/fs} 0 {0.001/fs}
 .MEAS TRAN Vmax max V(out)
 .MEAS TRAN Vmin min V(out)
 .MEAS TRAN Vpp PARAM Vmax-Vmin
 .include params.inc
-.dc VG -0.1 0.1 0.001
+* .dc VG -0.1 0.1 0.001
 .lib modele.mod
 .backanno
 .end

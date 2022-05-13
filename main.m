@@ -1,6 +1,4 @@
 %% starting point results
-
-
 clear
 %----------
 %x0=[15 8 15 20 230 120 270];
@@ -8,7 +6,6 @@ clear
 %-----------------
 %close all;
 x0=[25 20 15 100 230 135 370];
-
 %x0=[10 80 150 500 100 50 50];
 
 out_ac=run_sim(x0,"kask4_ac");
@@ -39,7 +36,7 @@ lb=[0.1 0.1 0.1 0.1 0.1 0.1 0.1]; ub=[10 10 10 10 10 10 10];
 
 %% optimize
 fun=@(xs) obj_fun(xs2x(xs));
-opts=optimoptions('fmincon','Algorithm',"interior-point","EnableFeasibilityMode",true,'Display','iter-detailed','PlotFcn',{'optimplotfval','optimplotx'},'FinDiffRelStep',1e-3);
+opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfval','optimplotx'},'FinDiffRelStep',1e-3);
 x_opt=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,@nonlcon,opts);
 
 %% compare results
@@ -56,9 +53,14 @@ yline(real(Aac_0(1))-3,"--")
 hold on
 semilogx(freq,real(Aac),'Color','red');
 xline(fg,"--","Color",'red')
-xline(200e6,"--","Color",'green')
+xline(200e6,"Color",'green','Label',"200 MHz")
 yline(real(Aac(1))-3,"--")
 legend("X_0","f_{g0}")
 title("Porównanie wyników w pkt. początkowym i optymalnym")
 xlabel("Częstotliwość [Hz]")
 ylabel("Wzmocnienie")
+
+%% Pareto
+
+
+

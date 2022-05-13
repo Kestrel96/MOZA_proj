@@ -1,8 +1,14 @@
 %% starting point results
 
+
 clear
-close all;
-x0=[15 3 50 50 230 81 300];
+%----------
+%x0=[15 8 15 20 230 120 270];
+
+%-----------------
+%close all;
+x0=[25 20 15 100 230 135 370];
+
 %x0=[10 80 150 500 100 50 50];
 
 out_ac=run_sim(x0,"kask4_ac");
@@ -14,9 +20,10 @@ b=boost(Aac_0);
 
 figure(1)
 semilogx(freq_0,real(Aac_0))
+ylim([-10 50])
 xline(fg_0,"--","Color",'blue')
 yline(real(Aac_0(1))-3,"--")
-xline(200e6,"--","Color",'green')
+xline(200e6,"Color",'green','Label',"200MHz")
 legend("X_0","f_{g0}")
 title("Wyniki w punkcie początkowym")
 xlabel("Częstotliwość [Hz]")
@@ -28,11 +35,11 @@ ylabel("Wzmocnienie")
 x2xs=@ (xs) xs./x0;
 xs2x=@ (x) x.*x0;
 %% bounds
-lb=[0 0 0 0 0 0 0]; ub=[10 10 10 10 10 10 10];
+lb=[0.1 0.1 0.1 0.1 0.1 0.1 0.1]; ub=[10 10 10 10 10 10 10];
 
 %% optimize
 fun=@(xs) obj_fun(xs2x(xs));
-opts=optimoptions('fmincon','Algorithm',"interior-point","EnableFeasibilityMode",true,'Display','iter-detailed','PlotFcn',{'optimplotfval','optimplotx'},'FinDiffRelStep',1e-2);
+opts=optimoptions('fmincon','Algorithm',"interior-point","EnableFeasibilityMode",true,'Display','iter-detailed','PlotFcn',{'optimplotfval','optimplotx'},'FinDiffRelStep',1e-3);
 x_opt=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,@nonlcon,opts);
 
 %% compare results

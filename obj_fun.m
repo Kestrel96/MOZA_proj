@@ -13,6 +13,7 @@ b=boost(Aac);
 
  figure(2)
  semilogx(freq,real(Aac))
+ ylim([-10 60])
  xline(fg,"--","Color",'blue')
  yline(real(Aac(1))-3,"--")
  xline(200e6,"--","Color",'green')
@@ -24,7 +25,6 @@ b=boost(Aac);
 GBW=-real(Aac(1))*fg;
 txt=sprintf("Boost: %0.3f; fg:%e; GBW= %e ",b,fg,GBW);
 disp(txt);
-disp(x);
 
 end
 

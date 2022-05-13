@@ -17,7 +17,7 @@ REE2 N001 e1 {REE2}
 CEE e2 N001 {CEE}
 .model D D
 .lib C:\Users\Kuba\Documents\LTspiceXVII\lib\cmp\standard.dio
-.ac dec 15 1 1G
+.ac dec 30 1 1G
 ;op
 * .PARAM REE1=5\n.PARAM REE2=8\n.PARAM CEE=50p\n.PARAM CG=50p\n.PARAM RE=200\n.PARAM RC2=81\n.PARAM RC3=330\n.PARAM Voff=0\n.PARAM Vs=0.1\n.PARAM fs=1k
 .MEAS AC A0 FIND mag(V(out)) AT 1KHz

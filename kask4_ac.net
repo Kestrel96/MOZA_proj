@@ -1,4 +1,4 @@
-* C:\Users\Kuba\Desktop\MOZA_proj\kask4_ac.asc
+* C:\Projects\Matlab\MOZA_proj\kask4_ac.asc
 VG in 0 SINE({Voff} {Vs} {fs}) AC 1
 VCC c1 0 9V
 RE1 e1 N002 {RE}

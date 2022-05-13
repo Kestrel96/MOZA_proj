@@ -1,4 +1,4 @@
-function [c,ceq] = nonlcon(x)
+function [c,ceq] = pareto_constr(x)
 %NONLCON Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -9,9 +9,8 @@ freq=out_ac.freq_vect;
 b=boost(Aac);
 fg=get_fg(Aac,freq);
 
-c(1)=(b-1);
-%c(2)=Aac(1)-1;
-%to jest dobre, weź to zostaw już
+c(1)=-(b-1);
+
 c(2)=-(fg/200e6-1);
 ceq = [];
 end

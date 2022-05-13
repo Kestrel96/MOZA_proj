@@ -36,8 +36,9 @@ lb=[0.1 0.1 0.1 0.1 0.1 0.1 0.1]; ub=[10 10 10 10 10 10 10];
 
 %% optimize
 fun=@(xs) obj_fun(xs2x(xs));
+constr=@(xs) nonlcon(xs2x(xs));
 opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfval','optimplotx'},'FinDiffRelStep',1e-3);
-x_opt=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,@nonlcon,opts);
+x_opt=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
 
 %% compare results
 close all;
@@ -62,5 +63,8 @@ ylabel("Wzmocnienie")
 
 %% Pareto
 
-
+fun=@(xs) obj_pareto(xs2x(xs));
+p_constr=@(xs) pareto_constr(xs2x(xs));
+opts=optimoptions('paretosearch','Display','iter','PlotFcn',{'psplotparetof'},'InitialPoints',x2xs(x0));
+x_pareto=paretosearch(fun,7,[],[],[],[],lb,ub,p_constr,opts);
 

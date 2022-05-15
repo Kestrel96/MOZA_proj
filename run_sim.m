@@ -8,6 +8,7 @@ spice_string="XVIIx64.exe";
 %----------------------------------
 
 modify_params(params);
+filename="./spice/"+filename;
 system(spice_string+" -Run -b "+ filename+".asc");
 results=LTspice2Matlab(filename+".raw");
 

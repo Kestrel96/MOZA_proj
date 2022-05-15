@@ -15,7 +15,7 @@ function  modify_params(params)
 %.PARAM fs=1k
 names=["REE1" "REE2" "CEE" "CG" "RE" "RC2" "RC3"];
 suffix=[' ' ' ' 'p' 'p' ' ' ' ' ' '];
-file = fopen("params.inc",'w');
+file = fopen("spice/params.inc",'w');
 
 for i=1:length(params)
     txt=sprintf(".PARAM %s=%i%c\n",names(i),params(i),suffix(i));

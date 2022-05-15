@@ -9,6 +9,9 @@ function fg = get_fg(Aac,freq)
   ku=ku0-3;
   idx=find(Aac < ku,1);
   fg=freq(idx);
+  if (isempty(fg))
+      fg=0;
+  end
 
 end
 

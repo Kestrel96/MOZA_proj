@@ -23,7 +23,7 @@ b=boost(Aac);
  ylabel("Wzmocnienie")
 
 GBW=-real(Aac(1))*fg;
-txt=sprintf("Boost: %0.3f; fg:%e; GBW= %e ",b,fg,GBW);
+txt=sprintf("Boost: %0.3f; fg:%e; ku=%0.3f, GBW= %e ",b,fg,real(Aac(1)),GBW);
 disp(txt);
 
 end

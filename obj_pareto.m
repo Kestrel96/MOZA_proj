@@ -20,11 +20,11 @@ obj(2)=-ku;
  yline(real(Aac(1))-3,"--")
  xline(200e6,"--","Color",'green')
  legend("X","f_{g}")
- title("Wyniki w trakcie optymalizacji")
+ title("Wyniki w trakcie optymalizacji (Pareto)")
  xlabel("Częstotliwość [Hz]")
  ylabel("Wzmocnienie")
 
-txt=sprintf("ku: %0.3f; fg:%e",ku,fg);
+txt=sprintf("ku: %0.3f; fg:%e; b=%0.3f",ku,fg,b);
 disp(txt);
 
 end

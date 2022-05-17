@@ -4,6 +4,7 @@ function [GBW] = obj_fun(x)
 out_ac=run_sim(x,"kask4_ac");
 freq=out_ac.freq_vect;
 Aac=out_ac.variable_mat(6,:);
+Aac=db(real(Aac));
 fg=get_fg(Aac,freq);
 b=boost(Aac);
 
@@ -22,8 +23,8 @@ b=boost(Aac);
  xlabel("Częstotliwość [Hz]")
  ylabel("Wzmocnienie")
 
-GBW=-real(Aac(1))*fg;
-txt=sprintf("Boost: %0.3f; fg:%e; ku=%0.3f, GBW= %e ",b,fg,real(Aac(1)),GBW);
+GBW=-log(real(Aac(1))*fg);
+txt=sprintf("Boost: %0.3f; fg:%e; ku=%0.3f, log(GBW) %e ",b,fg,real(Aac(1)),GBW);
 disp(txt);
 
 end

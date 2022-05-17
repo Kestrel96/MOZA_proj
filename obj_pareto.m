@@ -4,12 +4,13 @@ function obj = obj_pareto(x)
 out_ac=run_sim(x,"kask4_ac");
 freq=out_ac.freq_vect;
 Aac=out_ac.variable_mat(6,:);
+Aac=db(real(Aac));
 fg=get_fg(Aac,freq);
 ku=real(Aac(1));
 b=boost(Aac);
 
 
-obj(1)=-fg;
+obj(1)=-log(fg);
 obj(2)=-ku;
 
 
@@ -24,7 +25,7 @@ obj(2)=-ku;
  xlabel("Częstotliwość [Hz]")
  ylabel("Wzmocnienie")
 
-txt=sprintf("ku: %0.3f; fg:%e; b=%0.3f",ku,fg,b);
+txt=sprintf("ku: %0.3f; log(fg):%e; b=%0.3f",ku,fg,b);
 disp(txt);
 
 end

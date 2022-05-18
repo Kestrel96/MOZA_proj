@@ -3,6 +3,7 @@ clear
 close all;
 %%
 %-----------------
+x0=[15 5 45 250 350 220 500];
 %x0=[25 20 15 100 230 135 370];
 x0=[50 40 15 100 230 90 370];
 
@@ -57,7 +58,7 @@ lb=[0.01 0.01 0.01 0.01 0.01 0.01 0.01]; ub=[10 10 10 10 10 10 10];
 if (method_switch==0)
 fun=@(xs) obj_fun(xs2x(xs));
 constr=@(xs) nonlcon(xs2x(xs));
-opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'FinDiffRelStep',1e-5);
+opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'FinDiffRelStep',1e-2);
 xs_opt=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
 x_opt=xs2x(xs_opt);
 end

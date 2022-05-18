@@ -12,9 +12,9 @@ semilogx(freq_0,real(Aac_0),'Color','blue','LineWidth',2)
 xline(fg_0,"--","Color",'blue','Label','fg_{0}','LabelVerticalAlignment','bottom')
 yline(real(Aac_0(1))-3,"-.",'Color','blue','Label','k_{u0(3dB)}')
 hold on
-semilogx(freq,real(Aac),'Color','red','LineWidth',2);
-xline(fg,"--","Color",'red','Label','fg_{opt}','LabelVerticalAlignment','top')
-yline(real(Aac(1))-3,"-.",'Color','red','Label','k_{uopt(3dB)}')
+semilogx(freq,real(Aac_opt),'Color','red','LineWidth',2);
+xline(fg_opt,"--","Color",'red','Label','fg_{opt}','LabelVerticalAlignment','top')
+yline(real(Aac_opt(1))-3,"-.",'Color','red','Label','k_{uopt(3dB)}')
 xline(200e6,"Color",'green','Label',"200 MHz",'LabelVerticalAlignment','middle')
 
 legend("Punkt startowy","f_{g0}","k_{u0(3dB)}","Punkt optymalny","f_{gopt}","k_{uopt(3dB)}","200 MHz",'Location','best')
@@ -38,9 +38,11 @@ for i=1:length(x_pareto)
 end
 title("Granica Pareto i punkt optymalny GBW");
 plot(log(fg_opt),ku_opt,'+','MarkerSize',15,'Color','red','LineWidth',3);
+text(log(fg_opt),ku_opt+0.5,"Punkt optymalny GBW",'HorizontalAlignment','center');
+
 hold on
 plot(log(fg_0),ku0,'x','MarkerSize',15,'Color','green','LineWidth',2);
-text(log(fg_opt),ku_opt+0.5,"Punkt optymalny GBW",'HorizontalAlignment','center');
+text(log(fg_0),ku0+0.5,"Punkt startowy",'HorizontalAlignment','center');
 xlabel("log(f) [Hz]");
 ylabel("k_u [dB]");
 hold off

@@ -2,6 +2,7 @@
 clear
 close all;
 %-----------------
+x0=[15 5 45 250 350 220 500];
 %x0=[25 20 15 100 230 135 370];
 %x0=[20.8297483895642,0.200000000000000,22.5000000000000,125,230,135,370]
 %x0=[15 8 15 20 230 120 270];
@@ -10,7 +11,7 @@ close all;
 %points from pareto set
 %x0=[28.9229848492032,2,42.1878297848572,240.181815596788,370.303749261561,241.111417620530,997.688499801257];
 %best point from pareto
-x0=[41.7679147209104,0.0751112681817843,56.0812946983207,383.446514581162,302.534925272885,206.660424139118,1893.50663464421]
+%x0=[41.7679147209104,0.0751112681817843,56.0812946983207,383.446514581162,302.534925272885,206.660424139118,1893.50663464421]
 %pareto again (best so far)
 %x0=[41.0680233604586,0.200000000000000,20.9329004294496,139.388347648318,182.153860081774,123.742573067477,697.717622740244];
 %-----------------
@@ -51,7 +52,7 @@ lb=[0.01 0.01 0.01 0.01 0.01 0.01 0.01]; ub=[10 10 10 10 10 10 10];
 %% optimize
 fun=@(xs) obj_fun(xs2x(xs));
 constr=@(xs) nonlcon(xs2x(xs));
-opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'FinDiffRelStep',1e-5);
+opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'FinDiffRelStep',1e-2);
 xs_opt=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
 x_opt=xs2x(xs_opt);
 %% optimal point results

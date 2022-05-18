@@ -21,8 +21,8 @@ legend("Punkt startowy","f_{g0}","k_{u0(3dB)}","Punkt optymalny","f_{gopt}","k_{
 title("Porównanie wyników w pkt. początkowym i optymalnym")
 xlabel("f [Hz]")
 ylabel("k_u [dB]")
-
-saveas(optimal_figure,'plots/comparison.png');
+comparison_path=plots_path+"/comparison.png";
+saveas(optimal_figure,comparison_path);
 
 
 %% display pareto
@@ -46,7 +46,8 @@ text(log(fg_0),ku0+0.5,"Punkt startowy",'HorizontalAlignment','center');
 xlabel("log(f) [Hz]");
 ylabel("k_u [dB]");
 hold off
-saveas(pareto_figure,'plots/pareto.png')
+pareto_path=plots_path+"/pareto_front.png";
+saveas(pareto_figure,pareto_path)
 
 
 

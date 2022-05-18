@@ -3,7 +3,7 @@ clear
 close all;
 %%
 %-----------------
-x0=[15 5 45 250 350 220 500];
+%x0=[15 5 45 250 350 220 500];
 %x0=[25 20 15 100 230 135 370];
 x0=[50 40 15 100 230 90 370];
 
@@ -20,8 +20,22 @@ x0=[50 40 15 100 230 90 370];
 %-----------------
 
 %method switch: 0=fmicon, 1=patternsearch;
-method_switch=1;
 
+%% Algorithm choice
+if((exist('method_switch'))==0)
+    method_switch=0;
+end
+
+if (method_switch==1)
+    results_path="results/patternsearch";
+    plots_path="plots/patternsearch";
+end
+if (method_switch==0)
+    results_path="results/fmincon";
+    plots_path="plots/fmincon";
+end
+
+%% Starting point
 out_ac=run_sim(x0,"kask4_ac");
 freq_0=out_ac.freq_vect;
 Aac_0=out_ac.variable_mat(6,:);
@@ -54,6 +68,7 @@ xs2x=@ (x) x.*x0;
 lb=[0.01 0.01 0.01 0.01 0.01 0.01 0.01]; ub=[10 10 10 10 10 10 10];
 
 %% optimize
+
 
 if (method_switch==0)
 fun=@(xs) obj_fun(xs2x(xs));
@@ -105,7 +120,9 @@ for i=1:length(x_pareto)
     GBW_pareto=real(Aac(1))*fg_pareto(i);
           
 end
-save("results/latest.mat");
+%% Save latest data
+save_path=results_path+"/latest.mat";
+save(save_path);
 
 x_pareto_scaled=xs2x(x_pareto);
 display_results

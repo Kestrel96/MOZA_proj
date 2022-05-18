@@ -1,0 +1,143 @@
+\documentclass{article}
+\usepackage[english,polish]{babel}
+\selectlanguage{polish}
+
+\title{\huge  \Huge \textbf{MOZA Projekt 2} \\ \textbf{OA2-B}}
+\date{\today}
+\author{ \LARGE Jakub Półtorak}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+
+\begin{document}
+\maketitle
+\pagenumbering{gobble}
+\newpage
+\pagenumbering{arabic}
+
+
+\begin{center}
+\title{ \huge \textbf{Etap 1}}
+\end{center}
+\tableofcontents
+
+\section{Opis projektu}
+Projekt polega na optymalizacji układu dostarczonego przez zamawiającego tak, aby osiągnąć jak najmniejszą powierzchnię i pobór mocy z zasilania przez wzmacniacz. 
+
+Układ musi spełniać swoje zadanie (czyli w tym wypadku wzmacniać i generować odpowiedź o odpowiedniej jakości).
+Dodatkowo należy przeprowadzić analizę Pareto. Optymalizowany układ przedstawiono na poniższym rysunku.
+
+
+
+\begin{figure}[h]
+\centering
+
+\caption{Układ wzmacniacza.}
+\end{figure}
+
+
+
+
+
+\section{Zadanie optymalizacji}
+\subsection{Zmienne optymalizowane}
+
+
+Zadanie polega na optymalizacji powierzchni i mocy (obie jak najmniejsze). Optymalizować można wymiary tranzystorów M1...M7 (szerokość i długość bramek) oraz napięcie VBIAS.
+Po kilku ręcznych symulacjach układu jako zmienne optymalizowane wybrano jedynie wymiary tranzystorów. 
+
+Inne podejście zakładało optymalizację stosunku \(W/L\), jednak czas optymalizacji wszystkich wymiarów nie jest uciążliwy.
+
+Do funkcji celu dodano dodatkowo czas narastania/opadania w celu uniknięcia sytuacji, gdy optymalizator zmniejsza czasy tak mocno, że odpowiedź układu nie spełnia swojego zadania.
+
+\subsection{Optymalizacja, funkcja celu i ograniczenia}
+Poszukujemy minimum funkcji celu: 
+
+\[\min [f_1(x), f_2(x), f_3(x)]\]
+zależnej od wektora \(x\): 
+
+\begin{center}
+$\underset{W_{1-7}\in (20\mu m, 500 \mu m) ,L\in(2\mu m, 100\mu m)}{\textbf{x}}$ = 
+ 	$\begin{bmatrix}
+  		W_{1-4} & W_5 & W_6 & W_7 & L   
+	\end{bmatrix}$,
+\end{center}
+gdzie: \\ 
+\(x\) - wektor zmiennych optymalizowanych. Zmienne \(W_{1...7}\) to szerokości bramek, zmienna \(L\) to długość bramki. Wymiary w \(\mu m\).  \\
+\(f_1(x)\) - funkcja opisująca powierzchnię całkowitą układu (w \(nm^2\)), \\
+\(f_2(x)\) - funkcja opisująca moc pobieraną z zasilania (wyrażona w mW).\\
+\(f_3(x)\) - funkcja \(\max(t_r,t_f)\), która oblicza czas narastania/opadania (w ns). \\
+
+Dodatkowo utworzone zostały ograniczenia:\\
+\(g_1(x): f_1(x)<5,5 nm^2\) - ograniczenie pola powierzchni,\\
+\(g_2(x): f_2(x)<10 mW\)- ograniczenie mocy,\\
+\(g_3(x): f_3(x)<100 ns\)- ograniczenie czasu narastania/opadania.\\
+
+
+
+
+ 
+ 
+
+ 
+
+\subsection{Wybór punktu startowego}
+
+Punkt startowy został wybrany metodą prób i błędów.
+
+Przy wyborze punktu startowego kierowano się tym, żeby układ wykonywał swoje zadanie. Ostatecznie wybrano punkt startowy \(x_0\):
+
+\begin{center}
+ \(x_0\) = 
+ 	$\begin{bmatrix}
+  		
+  		50 & 30 & 40 & 30 & 15
+	\end{bmatrix}$,
+\end{center}
+
+Odpowiedź układu w punkcie startowym przedstawia poniższy rysunek:
+
+
+\begin{figure}[h]
+\centering
+\caption{Odpowiedź układu w punkcie \(x_0\).}
+\end{figure}
+
+Jak widać układ wzmacnia sygnał. Otrzymane wyniki nie są jednak optymalne.
+
+\subsection{Wybór algorytmu, skalowanie}
+\subsubsection{Metoda}
+Przy wyborze metody optymalizacji rozważano kilka opcji. Pierwszymi były metody \(\epsilon\)-ograniczeń oraz skalaryzacja przy pomocy funkcji celu (najprostszy przypadek sumy ważonej).
+
+Metoda \(\epsilon\)-ograniczeń została odrzucona ze względu na mało intuicyjne podejście do problemu.
+
+Metoda skalaryzacji także nie była dość "intuicyjna".
+
+Ostatecznie postanowiono wybrać metodę programowania celowego, głównie ze względu na sposób sformułowania zadania.
+Metoda programowania celowego pozwala ustawić cele do jakich powinien dążyć algorytm optymalizacji. Cele te można wyznaczyć jako wartości, których oczekujemy i przypisać im odpowiednie wagi, na podstawie których, algorytm wybierze kierunek optymalizacji.
+Z tych powodów łatwo było utworzyć funkcję celu i określić kierunek w którym powinna dążyć optymalizacja. Dodatkowo ułatwia to ewentualną zmianę parametrów.
+
+\subsubsection{Skalowanie}
+Ogólnie optymalizowane funkcje można skalować tak, żeby ich zakres zmieniał się np. w zakresie od 0 do 1, lub w celu zmniejszenia nakładu obliczeniowego poprzez działania na odpowiednio większych lub mniejszych liczbach.
+
+W przypadku tego zadania skalowanie ograniczono do przeliczenia jednostek na takie, które od razu dają  wynik w przeskalowanych jednostkach(np. \( pm^2\) przeliczone na \(nm^2\), czy W na mW).
+\subsection{Dokładność algorytmu i gładkość funkcji}
+W badanym przypadku modyfikujemy wymiary tranzystorów, co wpływa głównie na prąd DS. Funkcja opisująca ten prąd jest, przy założeniu, że pozostałe parametry układu, takie jak napięcia zasilania i wymuszenia się nie zmieniają, gładka. Nie jest zatem wymagana żadna modyfikacja funkcji (ani metody) w celu poprawnej optymalizacji. 
+
+Gdyby jednak funkcja okazała się niegładka należałoby znaleźć "niebezpieczne" punkty w okolicy rozwiązania, którego oczekujemy i wykorzystać np. metodę aproksymacji.
+
+Przeprowadzono próbna optymalizację i zauważono, że domyślne ustawienia optymalizatora nie dają pożądany wyników (optymalizator praktycznie stoi w miejscu). 
+Aby temu zaradzić zmieniono niektóre opcje optymalizatora takie jak tolerancja algorytmu, krok czy ilość iteracji (dokładne opcje w pliku sim.m).
+
+\subsection{Uruchamianie kodu Matlaba}
+Funkcję celu zrealizowano jako pojedynczą funkcję \textit{run\textunderscore} sim(x), która wywołuje symulator i zwraca wyniki w postaci wektora.
+Aby funkcja działała proszę zmienić w pliku run\textunderscore sim.m wartość zmiennej 
+ spice\textunderscore string na ścieżkę do symulatora. 
+
+
+
+\end{document}
+
+

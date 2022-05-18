@@ -3,3 +3,8 @@
 *.asv
 *.raw
 *.net
+sprawozdanie/*.log
+sprawozdanie/*.aux
+sprawozdanie/*.fls
+sprawozdanie/*.toc
+sprawozdanie/*.gz

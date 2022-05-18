@@ -1,7 +1,7 @@
 %% starting point results
 clear
 close all;
-%%
+%% Choose starting point
 %-----------------
 %x0=[15 5 45 250 350 220 500];
 %x0=[25 20 15 100 230 135 370];
@@ -71,21 +71,21 @@ lb=[0.01 0.01 0.01 0.01 0.01 0.01 0.01]; ub=[10 10 10 10 10 10 10];
 
 
 if (method_switch==0)
-fun=@(xs) obj_fun(xs2x(xs));
-constr=@(xs) nonlcon(xs2x(xs));
-opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'FinDiffRelStep',1e-2);
-xs_opt=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
-x_opt=xs2x(xs_opt);
+    fun=@(xs) obj_fun(xs2x(xs));
+    constr=@(xs) nonlcon(xs2x(xs));
+    opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'FinDiffRelStep',1e-2);
+    xs_opt=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
+    x_opt=xs2x(xs_opt);
 end
 
 if(method_switch==1)
-opts = optimoptions('patternsearch','Display','iter','PlotFcn',{'psplotbestf','psplotmeshsize','psplotbestx'},'MaxTime',3600);
-fun=@(xs) obj_fun(xs2x(xs));
-constr=@(xs) nonlcon(xs2x(xs));
-[xs_opt]=patternsearch(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
-x_opt=xs2x(xs_opt);
+    opts = optimoptions('patternsearch','Display','iter','PlotFcn',{'psplotbestf','psplotmeshsize','psplotbestx'},'MaxTime',3600);
+    fun=@(xs) obj_fun(xs2x(xs));
+    constr=@(xs) nonlcon(xs2x(xs));
+    [xs_opt]=patternsearch(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
+    x_opt=xs2x(xs_opt);
 end
-    
+
 %% optimal point results
 close all;
 out_ac=run_sim(x_opt,"kask4_ac");
@@ -120,7 +120,7 @@ for i=1:length(x_pareto)
     ku_pareto(i)=real(Aac(1));
     b_pareto=boost(Aac);
     GBW_pareto=real(Aac(1))*fg_pareto(i);
-          
+
 end
 %% Save latest data
 save_path=results_path+"/latest.mat";

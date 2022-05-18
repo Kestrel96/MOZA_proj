@@ -30,11 +30,11 @@ saveas(optimal_figure,comparison_path);
 
 pareto_figure=figure('Name','Pareto','NumberTitle','off','Position', [0 0 1600 900]);
 for i=1:length(x_pareto)
-    scatter(log(fg_pareto(i)),ku_pareto(i),'LineWidth',2);    
+    scatter(log(fg_pareto(i)),ku_pareto(i),'LineWidth',2);
     set ( gca, 'xdir', 'reverse' )
     set ( gca, 'ydir', 'reverse' )
-    hold on  
-    
+    hold on
+
 end
 title("Granica Pareto i punkt optymalny GBW");
 plot(log(fg_opt),ku_opt,'+','MarkerSize',15,'Color','red','LineWidth',3);

@@ -67,7 +67,7 @@ if(method_switch==1)
 opts = optimoptions('patternsearch','Display','iter','PlotFcn',{'psplotbestf','psplotmeshsize','psplotbestx'},'MaxTime',3600);
 fun=@(xs) obj_fun(xs2x(xs));
 constr=@(xs) nonlcon(xs2x(xs));
-[xs_opt]=patternsearch(fun,x2xs(x0),[],[],[],[],lb,ub,[],opts);
+[xs_opt]=patternsearch(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
 x_opt=xs2x(xs_opt);
 end
     
@@ -81,6 +81,8 @@ fg_opt=get_fg(Aac_opt,freq_opt);
 ku_opt=real(Aac_opt(1));
 GBW_opt=Aac_opt(1)*fg_opt;
 b_opt=boost(Aac_opt);
+disp(ku_opt);
+disp(fg_opt);
 
 
 

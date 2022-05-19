@@ -1,5 +1,5 @@
 %% starting point results
-clear
+%clear
 close all;
 %% Choose starting point
 %-----------------
@@ -29,11 +29,14 @@ end
 if (method_switch==1)
     results_path="results/patternsearch";
     plots_path="plots/patternsearch";
+    
 end
 if (method_switch==0)
     results_path="results/fmincon";
     plots_path="plots/fmincon";
+    
 end
+
 
 %% Starting point
 out_ac=run_sim(x0,"kask4_ac");
@@ -66,14 +69,18 @@ x2xs=@ (xs) xs./x0;
 xs2x=@ (x) x.*x0;
 %% bounds
 lb=[0.01 0.01 0.01 0.01 0.01 0.01 0.01]; ub=[10 10 10 10 10 10 10];
+%% Output function results file preparation
+delete output_results
+fileID = fopen('output_results','a+');
+header=["iter" "x1" "x2" "x3" "x4" "x5" "x6" "x7" "feasible" "fcnt" "fval"];
+fprintf(fileID,"%s %s %s %s %s %s %s %s %s %s %s\n",header);
+fclose(fileID);
 
 %% optimize
-
-
 if (method_switch==0)
     fun=@(xs) obj_fun(xs2x(xs));
     constr=@(xs) nonlcon(xs2x(xs));
-    opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'FinDiffRelStep',1e-2);
+    opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'FinDiffRelStep',1e-2,'OutputFcn',@output_fun);
     xs_opt=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
     x_opt=xs2x(xs_opt);
 end

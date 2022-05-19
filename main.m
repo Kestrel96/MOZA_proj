@@ -86,7 +86,7 @@ if (method_switch==0)
 end
 
 if(method_switch==1)
-    opts = optimoptions('patternsearch','Display','iter','PlotFcn',{'psplotbestf','psplotmeshsize','psplotbestx'},'MaxTime',3600);
+    opts = optimoptions('patternsearch','Display','iter','PlotFcn',{'psplotbestf','psplotmeshsize','psplotbestx'},'MaxTime',3600,'OutputFcn',@output_fun_ptrn);
     fun=@(xs) obj_fun(xs2x(xs));
     constr=@(xs) nonlcon(xs2x(xs));
     [xs_opt]=patternsearch(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);

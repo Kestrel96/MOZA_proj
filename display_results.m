@@ -50,6 +50,11 @@ hold off
 pareto_path=plots_path+"/pareto_front.png";
 saveas(pareto_figure,pareto_path)
 
+%% display optimization results
+
+extract_results();
+
+
 
 
 

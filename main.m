@@ -87,7 +87,7 @@ if(method_switch==1)
 end
 
 %% optimal point results
-close all;
+
 out_ac=run_sim(x_opt,"kask4_ac");
 freq_opt=out_ac.freq_vect;
 Aac_opt=out_ac.variable_mat(6,:);

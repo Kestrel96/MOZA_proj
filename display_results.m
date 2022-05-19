@@ -31,6 +31,7 @@ saveas(optimal_figure,comparison_path);
 pareto_figure=figure('Name','Pareto','NumberTitle','off','Position', [0 0 1600 900]);
 for i=1:length(x_pareto)
     scatter(log(fg_pareto(i)),ku_pareto(i),'LineWidth',2);
+    text(log(fg_pareto(i)),ku_pareto(i),string(i),'HorizontalAlignment','center','VerticalAlignment', 'bottom');
     set ( gca, 'xdir', 'reverse' )
     set ( gca, 'ydir', 'reverse' )
     hold on
@@ -38,11 +39,11 @@ for i=1:length(x_pareto)
 end
 title("Granica Pareto i punkt optymalny GBW");
 plot(log(fg_opt),ku_opt,'+','MarkerSize',15,'Color','red','LineWidth',3);
-text(log(fg_opt),ku_opt+0.5,"Punkt optymalny GBW",'HorizontalAlignment','center');
+text(log(fg_opt),ku_opt,"Punkt optymalny GBW",'HorizontalAlignment','center','VerticalAlignment', 'bottom');
 
 hold on
 plot(log(fg_0),ku0,'x','MarkerSize',15,'Color','green','LineWidth',2);
-text(log(fg_0),ku0+0.5,"Punkt startowy",'HorizontalAlignment','center');
+text(log(fg_0),ku0,"Punkt startowy",'HorizontalAlignment','center','VerticalAlignment', 'bottom');
 xlabel("log(f) [Hz]");
 ylabel("k_u [dB]");
 hold off

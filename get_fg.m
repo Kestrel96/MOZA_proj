@@ -14,7 +14,7 @@ idx=find(Aac < ku,1);
 fg=freq(idx);
 
 if(isempty(idx)== 0)
-    if((idx+1 > length(freq) & idx-1 < length(freq)))
+    if((idx+1 > length(freq) || idx-1 < length(freq)))
         %f=[freq(idx-1) freq(idx) freq(idx+1)];
         f=freq(idx-1:idx+1);
         %k=[Aac(idx-1) Aac(idx) Aac(idx+1)];

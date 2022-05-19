@@ -4,7 +4,7 @@ function [GBW] = obj_fun(x)
 out_ac=run_sim(x,"kask4_ac");
 freq=out_ac.freq_vect;
 Aac=out_ac.variable_mat(6,:);
-Aac=db(real(Aac));
+Aac=db(abs(Aac));
 fg=get_fg(Aac,freq);
 b=boost(Aac);
 
@@ -13,10 +13,10 @@ b=boost(Aac);
 
 
  figure(2)
- semilogx(freq,real(Aac))
+ semilogx(freq,abs(Aac))
  ylim([-10 60])
  xline(fg,"--","Color",'blue')
- yline(real(Aac(1))-3,"--")
+ yline(abs(Aac(1))-3,"--")
  xline(200e6,"--","Color",'green')
  legend("X","f_{g}")
  title("Wyniki w trakcie optymalizacji")
@@ -25,8 +25,8 @@ b=boost(Aac);
 
 
 
-GBW=-log(real(Aac(1))*fg);
-txt=sprintf("Boost: %0.3f; fg:%e; ku=%0.3f, log(GBW) %e ",b,fg,real(Aac(1)),GBW);
+GBW=-log(abs(Aac(1))*fg);
+txt=sprintf("Boost: %0.3f; fg:%e; ku=%0.3f, log(GBW) %e ",b,fg,abs(Aac(1)),GBW);
 
 
 disp(txt);

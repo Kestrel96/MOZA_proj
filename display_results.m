@@ -7,14 +7,14 @@ freq=out_ac.freq_vect;
 Aac=out_ac.variable_mat(6,:);
 fg=get_fg(Aac,freq);
 optimal_figure=figure('Name','OmptimalResults','NumberTitle','off','Position', [0 0 1600 900]);
-semilogx(freq_0,real(Aac_0),'Color','blue','LineWidth',2)
+semilogx(freq_0,abs(Aac_0),'Color','blue','LineWidth',2)
 
 xline(fg_0,"--","Color",'blue','Label','fg_{0}','LabelVerticalAlignment','bottom')
-yline(real(Aac_0(1))-3,"-.",'Color','blue','Label','k_{u0(3dB)}')
+yline(abs(Aac_0(1))-3,"-.",'Color','blue','Label','k_{u0(3dB)}')
 hold on
-semilogx(freq,real(Aac_opt),'Color','red','LineWidth',2);
+semilogx(freq,abs(Aac_opt),'Color','red','LineWidth',2);
 xline(fg_opt,"--","Color",'red','Label','fg_{opt}','LabelVerticalAlignment','top')
-yline(real(Aac_opt(1))-3,"-.",'Color','red','Label','k_{uopt(3dB)}')
+yline(abs(Aac_opt(1))-3,"-.",'Color','red','Label','k_{uopt(3dB)}')
 xline(200e6,"Color",'green','Label',"200 MHz",'LabelVerticalAlignment','middle')
 
 legend("Punkt startowy","f_{g0}","k_{u0(3dB)}","Punkt optymalny","f_{gopt}","k_{uopt(3dB)}","200 MHz",'Location','best')
@@ -49,6 +49,11 @@ ylabel("k_u [dB]");
 hold off
 pareto_path=plots_path+"/pareto_front.png";
 saveas(pareto_figure,pareto_path)
+
+%% display optimization results
+
+extract_results();
+
 
 
 

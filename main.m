@@ -4,8 +4,8 @@ close all;
 %% Choose starting point
 %-----------------
 %x0=[15 5 45 250 350 220 500];
-%x0=[25 20 15 100 230 135 370];
-x0=[50 40 15 100 230 90 370];
+x0=[25 20 15 100 230 135 370];
+%x0=[50 40 15 100 230 90 370];
 
 %x0=[20.8297483895642,0.200000000000000,22.5000000000000,125,230,135,370]
 %x0=[15 8 15 20 230 120 270];
@@ -68,12 +68,12 @@ xs2x=@ (x) x.*x0;
 lb=[0.01 0.01 0.01 0.01 0.01 0.01 0.01]; ub=[10 10 10 10 10 10 10];
 
 %% optimize
-
-
+s=1e-2;
+findiff=[s s s s s s s];
 if (method_switch==0)
     fun=@(xs) obj_fun(xs2x(xs));
     constr=@(xs) nonlcon(xs2x(xs));
-    opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'FinDiffRelStep',1e-2);
+    opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'FinDiffRelStep',findiff);
     xs_opt=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
     x_opt=xs2x(xs_opt);
 end

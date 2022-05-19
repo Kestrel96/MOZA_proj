@@ -35,7 +35,7 @@ for i=1:length(x_pareto)
     set ( gca, 'xdir', 'reverse' )
     set ( gca, 'ydir', 'reverse' )
     hold on
-
+    
 end
 title("Granica Pareto i punkt optymalny GBW");
 plot(log(fg_opt),ku_opt,'+','MarkerSize',15,'Color','red','LineWidth',3);
@@ -51,8 +51,20 @@ pareto_path=plots_path+"/pareto_front.png";
 saveas(pareto_figure,pareto_path)
 
 %% display optimization results
-
-extract_results();
+figure(10)
+for i=3:10
+    
+    
+   
+    out_ac=run_sim(xs2x(output_fcn_results(i,2:8)),"kask4_ac");
+    freq=out_ac.freq_vect;
+    Aac=out_ac.variable_mat(6,:);
+    fg=get_fg(Aac,freq);
+    
+    semilogx(freq,db(abs(Aac)));
+    pause
+end
+hold off
 
 
 

@@ -18,6 +18,6 @@ output_fun_results=[iter x feasible fcnt fval];
 fprintf(fileID,"%f %f %f %f %f %f %f %f %f %f %f\n",output_fun_results);
 fclose(fileID);
 
-stop=1;
+stop=0;
 end
 

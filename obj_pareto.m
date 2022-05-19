@@ -24,6 +24,8 @@ obj(2)=-ku;
  title("Wyniki w trakcie optymalizacji (Pareto)")
  xlabel("Częstotliwość [Hz]")
  ylabel("Wzmocnienie")
+ 
+ 
 
 txt=sprintf("ku: %0.3f; log(fg):%e; b=%0.3f",ku,fg,b);
 disp(txt);

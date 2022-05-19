@@ -5,7 +5,7 @@ close all;
 %-----------------
 %x0=[15 5 45 250 350 220 500];
 %x0=[25 20 15 100 230 135 370];
-x0=[50 40 15 100 230 90 370];
+x0=[50 80 15 100 230 90 370];
 
 %x0=[20.8297483895642,0.200000000000000,22.5000000000000,125,230,135,370]
 %x0=[15 8 15 20 230 120 270];
@@ -42,20 +42,20 @@ end
 out_ac=run_sim(x0,"kask4_ac");
 freq_0=out_ac.freq_vect;
 Aac_0=out_ac.variable_mat(6,:);
-Aac_0=db(real(Aac_0));
-%Aac_0=real(Aac_0);
-%Aac_0=10*log(real(Aac_0));
+Aac_0=db(abs(Aac_0));
+%Aac_0=abs(Aac_0);
+%Aac_0=10*log(abs(Aac_0));
 fg_0=get_fg(Aac_0,freq_0);
 GBW0=Aac_0(1)*fg_0;
 GBW=log(Aac_0(1)*fg_0);
 b=boost(Aac_0);
-ku0=real(Aac_0(1));
+ku0=abs(Aac_0(1));
 
 figure(1)
-semilogx(freq_0,real(Aac_0))
+semilogx(freq_0,abs(Aac_0))
 ylim([-10 50])
 xline(fg_0,"--","Color",'blue')
-yline(real(Aac_0(1))-3,"--")
+yline(abs(Aac_0(1))-3,"--")
 xline(200e6,"Color",'green','Label',"200MHz")
 legend("X_0","f_{g0}")
 title("Wyniki w punkcie początkowym")
@@ -80,7 +80,7 @@ fclose(fileID);
 if (method_switch==0)
     fun=@(xs) obj_fun(xs2x(xs));
     constr=@(xs) nonlcon(xs2x(xs));
-    opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'FinDiffRelStep',1e-2,'OutputFcn',@output_fun);
+    opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'FinDiffRelStep',1e-3,'OutputFcn',@output_fun);
     xs_opt=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
     x_opt=xs2x(xs_opt);
 end
@@ -98,13 +98,14 @@ end
 out_ac=run_sim(x_opt,"kask4_ac");
 freq_opt=out_ac.freq_vect;
 Aac_opt=out_ac.variable_mat(6,:);
-Aac_opt=db(real(Aac_opt));
+Aac_opt=db(abs(Aac_opt));
 fg_opt=get_fg(Aac_opt,freq_opt);
-ku_opt=real(Aac_opt(1));
+ku_opt=abs(Aac_opt(1));
 GBW_opt=Aac_opt(1)*fg_opt;
 b_opt=boost(Aac_opt);
 disp(ku_opt);
 disp(fg_opt);
+[output_fcn_results,header]=extract_results();
 
 
 
@@ -113,7 +114,8 @@ disp(fg_opt);
 
 fun=@(xs) obj_pareto(xs2x(xs));
 p_constr=@(xs) pareto_constr(xs2x(xs));
-opts=optimoptions('paretosearch','Display','iter','PlotFcn',{'psplotparetof'},'InitialPoints',x2xs(x0),'MaxIterations',15,'MaxTime',3600);
+%,'InitialPoints',x2xs(x_opt)
+opts=optimoptions('paretosearch','Display','iter','PlotFcn',{'psplotparetof'},'MaxIterations',15,'MaxTime',1800);
 x_pareto=paretosearch(fun,7,[],[],[],[],lb,ub,p_constr,opts);
 
 %% get pareto points
@@ -124,15 +126,14 @@ for i=1:length(x_pareto)
     Aac=out_ac.variable_mat(6,:);
 
     fg_pareto(i)=get_fg(Aac,freq);
-    ku_pareto(i)=real(Aac(1));
+    ku_pareto(i)=abs(Aac(1));
     b_pareto=boost(Aac);
-    GBW_pareto=real(Aac(1))*fg_pareto(i);
+    GBW_pareto=abs(Aac(1))*fg_pareto(i);
 
 end
 %% Save latest data
 save_path=results_path+"/latest.mat";
 save(save_path);
-
 x_pareto_scaled=xs2x(x_pareto);
 display_results
 

@@ -25,7 +25,7 @@ b=boost(Aac);
 
 
 
-GBW=-abs(Aac(1))*fg/10e8;
+GBW=-log(abs(Aac(1))*fg);
 txt=sprintf("Boost: %0.3f; fg:%e; ku=%0.3f, log(GBW) %e ",b,fg,abs(Aac(1)),GBW);
 
 

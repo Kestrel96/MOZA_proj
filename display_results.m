@@ -51,20 +51,20 @@ pareto_path=plots_path+"/pareto_front.png";
 saveas(pareto_figure,pareto_path)
 
 %% display optimization results
-figure(10)
-for i=3:10
-    
-    
-   
-    out_ac=run_sim(xs2x(output_fcn_results(i,2:8)),"kask4_ac");
-    freq=out_ac.freq_vect;
-    Aac=out_ac.variable_mat(6,:);
-    fg=get_fg(Aac,freq);
-    
-    semilogx(freq,db(abs(Aac)));
-    pause
-end
-hold off
+% figure(10)
+% for i=3:10
+%     
+%     
+%    
+%     out_ac=run_sim(xs2x(output_fcn_results(i,2:8)),"kask4_ac");
+%     freq=out_ac.freq_vect;
+%     Aac=out_ac.variable_mat(6,:);
+%     fg=get_fg(Aac,freq);
+%     
+%     semilogx(freq,db(abs(Aac)));
+%     pause
+% end
+% hold off
 
 
 

@@ -80,8 +80,9 @@ fclose(fileID);
 if (method_switch==0)
     fun=@(xs) obj_fun(xs2x(xs));
     constr=@(xs) nonlcon(xs2x(xs));
-    opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'FinDiffRelStep',1e-2,'OutputFcn',@output_fun);
-    xs_opt=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
+    %,'FinDiffRelStep',1e-5
+    opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'OutputFcn',@output_fun);
+    [xs_opt,fval_opt,exitflag]=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
     x_opt=xs2x(xs_opt);
 end
 

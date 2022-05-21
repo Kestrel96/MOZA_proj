@@ -19,6 +19,26 @@ x0=[25 20 15 100 230 135 370];
 %x0=[41.0680233604586,0.200000000000000,20.9329004294496,139.388347648318,182.153860081774,123.742573067477,697.717622740244];
 %-----------------
 
+
+%3 vars
+
+%-----------------
+%x0=[15 5 45 250 350 220 500];
+x0=[5 200 81 50];
+%x0=[50 80 15 100 230 90 370];
+
+%x0=[20.8297483895642,0.200000000000000,22.5000000000000,125,230,135,370]
+%x0=[15 8 15 20 230 120 270];
+%x0=[39     2    23   268   358   210   688];
+%x0=[45 20 23 220 320 210 700];
+%points from pareto set
+%x0=[28.9229848492032,2,42.1878297848572,240.181815596788,370.303749261561,241.111417620530,997.688499801257];
+%best point from pareto
+%x0=[41.7679147209104,0.0751112681817843,56.0812946983207,383.446514581162,302.534925272885,206.660424139118,1893.50663464421]
+%pareto again (best so far)
+%x0=[41.0680233604586,0.200000000000000,20.9329004294496,139.388347648318,182.153860081774,123.742573067477,697.717622740244];
+%-----------------
+
 %method switch: 0=fmicon, 1=patternsearch;
 
 %% Algorithm choice
@@ -68,12 +88,12 @@ ylabel("Wzmocnienie")
 x2xs=@ (xs) xs./x0;
 xs2x=@ (x) x.*x0;
 %% bounds
-lb=[0.1 0.1 0.1 0.1 0.1 0.1 0.1]; ub=[10 10 10 10 10 10 10];
+lb=[0.1 0.1 0.1 0.1]; ub=[10 10 10 10];
 %% Output function results file preparation
 delete output_results
 fileID = fopen('output_results','a+');
-header=["iter" "x1" "x2" "x3" "x4" "x5" "x6" "x7" "feasible" "fcnt" "fval"];
-fprintf(fileID,"%s %s %s %s %s %s %s %s %s %s %s\n",header);
+header=["iter" "x1" "x2" "x3" "feasible" "fcnt" "fval"];
+fprintf(fileID,"%s %s %s %s %s %s %s\n",header);
 fclose(fileID);
 
 %% optimize
@@ -81,7 +101,8 @@ if (method_switch==0)
     fun=@(xs) obj_fun(xs2x(xs));
     constr=@(xs) nonlcon(xs2x(xs));
     %,'FinDiffRelStep',1e-5
-    opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'OutputFcn',@output_fun);
+    %'UseParallel',true
+    opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'OutputFcn',@output_fun,'FinDiffRelStep',1e-2);
     [xs_opt,fval_opt,exitflag]=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
     x_opt=xs2x(xs_opt);
 end
@@ -106,7 +127,7 @@ GBW_opt=Aac_opt(1)*fg_opt;
 b_opt=boost(Aac_opt);
 disp(ku_opt);
 disp(fg_opt);
-[output_fcn_results,header]=extract_results();
+%[output_fcn_results,header]=extract_results();
 
 
 

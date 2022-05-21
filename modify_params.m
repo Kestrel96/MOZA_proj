@@ -13,18 +13,23 @@ function  modify_params(params)
 %.PARAM Voff=0
 %.PARAM Vs=0.1
 %.PARAM fs=1k
-names=["REE1" "REE2" "CEE" "CG" "RE" "RC2" "RC3"];
-suffix=[' ' ' ' 'p' 'p' ' ' ' ' ' '];
+names=["REE1" "RE" "RC2" "CEE"];
+suffix=[' ' ' ' ' ' 'p'];
 file = fopen("spice/params.inc",'w');
 
 for i=1:length(params)
     txt=sprintf(".PARAM %s=%i%c\n",names(i),params(i),suffix(i));
     fprintf(file,txt);
 end
-ending_params=sprintf("\n.PARAM Voff=0\n.PARAM Vs=0.1\n.PARAM fs=1k\n");
+ending_params=sprintf("\n.PARAM Voff=0\n.PARAM Vs=0.1\n.PARAM fs=1k\n.PARAM REE2=8\n.PARAM CG=50p\n.PARAM RC3=330");
 fprintf(file,ending_params);
 
 fclose(file);
 
 end
 
+%.PARAM REE2=8
+%.PARAM CEE=50p
+%.PARAM CG=50p
+%.PARAM RE=200
+%.PARAM RC3=330

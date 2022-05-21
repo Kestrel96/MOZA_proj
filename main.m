@@ -24,8 +24,11 @@ x0=[25 20 15 100 230 135 370];
 
 %-----------------
 %x0=[15 5 45 250 350 220 500];
-x0=[5 200 81 50];
 %x0=[50 80 15 100 230 90 370];
+x0=[5 200 81 50];
+
+x0=[25 200 81 50];
+
 
 %x0=[20.8297483895642,0.200000000000000,22.5000000000000,125,230,135,370]
 %x0=[15 8 15 20 230 120 270];
@@ -88,7 +91,7 @@ ylabel("Wzmocnienie")
 x2xs=@ (xs) xs./x0;
 xs2x=@ (x) x.*x0;
 %% bounds
-lb=[0.1 0.1 0.1 0.1]; ub=[10 10 10 10];
+lb=[0.1 0.1 0.1 0.75]; ub=[10 10 10 10];
 %% Output function results file preparation
 delete output_results
 fileID = fopen('output_results','a+');
@@ -102,7 +105,7 @@ if (method_switch==0)
     constr=@(xs) nonlcon(xs2x(xs));
     %,'FinDiffRelStep',1e-5
     %'UseParallel',true
-    opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'OutputFcn',@output_fun,'FinDiffRelStep',1e-2);
+    opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'OutputFcn',@output_fun,'FinDiffRelStep',1e-2');
     [xs_opt,fval_opt,exitflag]=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
     x_opt=xs2x(xs_opt);
 end
@@ -137,8 +140,8 @@ disp(fg_opt);
 fun=@(xs) obj_pareto(xs2x(xs));
 p_constr=@(xs) pareto_constr(xs2x(xs));
 %,'InitialPoints',x2xs(x_opt)
-opts=optimoptions('paretosearch','Display','iter','PlotFcn',{'psplotparetof'},'MaxIterations',15,'MaxTime',1800);
-x_pareto=paretosearch(fun,7,[],[],[],[],lb,ub,p_constr,opts);
+opts=optimoptions('paretosearch','Display','iter','PlotFcn',{'psplotparetof'},'ParetoSetSize',20,'MaxTime',1800);
+x_pareto=paretosearch(fun,4,[],[],[],[],lb,ub,p_constr,opts);
 
 %% get pareto points
 

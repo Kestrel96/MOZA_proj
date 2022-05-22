@@ -33,7 +33,7 @@ GBW. Na układ nałożono dodatkowe ograniczenia w postaci minimalnego wzmocnien
 granicznej $f_g > 200 MHz$ (rozumianej jako częstoliwość spadku o 3 dB względem $k_{u0}$).
 \section{Sformułowanie matematyczne zadań optymalizacji}
 Poszukiwane jest minimum funkcji celu:
-\[ \min\limits_{x_1,\dots x_T} f(x) \]
+\[ \min\limits_{\textbf{x}\in \mathbf{R}^+  } f(\textbf{x}) \]
 p.o.
 \[ g_{i}(\textbf{x}) \leq 0 \ \ \ \  i=1..n_g\]
 gdzie:
@@ -122,6 +122,8 @@ W katalogu głównym katalogu znajdują się skrypty i m-funckje.
 
 Aby uruchamić optymalizację należy uruchomić skrypt main.m. Po optymalziacji wyniki zostaną zapisane do odpowiednich folderów.
 
+Aby nie czekać aż optymalizator zakończy pracę (ok. 5 minut) można wczytać gotowe wyniki za pomocą komendy load("results/latest.mat").
+
 \subsubsection*{Opis plików}
 \begin{itemize}
 	\item main.m - główny skrypt realizujący zadanie optymalizacji. 
@@ -157,25 +159,59 @@ W przypadku funkcji celu iloczyn wzmocnienia i częstotliwości granicznej sięg
 Aby usprawnić pracę optymalizatora wyjście z zaimplementowanej funkcji celu jest postaci $-log(GBW)$.
 \pagebreak
 \subsection{Przebieg optymalizacji, otrzymane wyniki}
-Optymalizowane są wszytskie parametry dostępne w zadaniu. Ograniczenia dobrano na podstawie metody prób i błędów i zapisano w postaci wektorów lb i ub w pliku main.m 
+Optymalizowane są wszytskie parametry dostępne w zadaniu. Ograniczenia dobrano na podstawie metody prób i błędów i zapisano w postaci wektorów lb i ub w pliku main.m.
+Dolne ograniczenie zapewnia, że wszytskie elementy mają dodatnie wartości. 
+
 Przebieg optymalizacji zoabczyć można poniżej:
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lllll}
+		   & $k_u$ {[}dB{]} & $f_g$ {[}MHz{]} & GBW {[}$dB \cdot MHz${]} & b {[}dB{]} \\
+	P. start   & 27,33         & 4,345          & 1,187                                 & 0,198      \\
+	P. opt. & 26,13         & 6,838          & 1,781                                 & 0,371     
+	\end{tabular}
+	\end{table}
 
 
 \begin{figure}[h]
-	\includegraphics[width=12cm]{graphics/starting_point_spice.png}
+	\includegraphics[width=12cm]{graphics/comparison.png}
+	\centering
+	\caption{Porównanie punktu optymalnego i startowego.}
+\end{figure}
+
+\begin{figure}[h]
+	\includegraphics[width=12cm]{graphics/fval.png}
 	\centering
 	\caption{Przebieg wartości funkcji celu.}
 \end{figure}
 
 \begin{figure}[h]
-	\includegraphics[width=12cm]{graphics/starting_point_spice.png}
+	\includegraphics[width=10cm]{graphics/exit_msg.png}
 	\centering
-	\caption{Porównanie punktu optymalnego i startowego.}
+	\caption{Informacja o zakończeniu pracy przez optymalizator.}
 \end{figure}
 
 
+\begin{figure}[h]
+	\includegraphics[width=10cm,height=4cm]{graphics/optim_tran.png}
+	\centering
+	\caption{Symulacja czasowa w pkt. optymalnym. Wzmacniacz wzmacnia.}
+\end{figure}
+
 
 \pagebreak
+
+
+
+
+
+
+
+
+
+
+\clearpage
 \begin{center}
 	\title{ \huge \textbf{Wykresy w dużej rozdzielczości}}
 \end{center}
@@ -189,6 +225,7 @@ Przebieg optymalizacji zoabczyć można poniżej:
 	\end{figure}
 \end{landscape}
 
+\clearpage
 \pagebreak
 \begin{landscape}
 	\begin{figure}[h]
@@ -229,6 +266,15 @@ Przebieg optymalizacji zoabczyć można poniżej:
 	\end{figure}
 \end{landscape}
 
+\pagebreak
+\begin{landscape}
+	\begin{figure}[h]
+		\vspace*{-2cm}
+		\includegraphics[width=20cm,height=10cm]{graphics/optim_tran.png}
+	\centering
+	\caption{Symulacja czasowa w pkt. optymalnym. Wzmacniacz wzmacnia.}
+	\end{figure}
+\end{landscape}
 
 \end{document}
 

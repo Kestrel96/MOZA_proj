@@ -24,49 +24,40 @@ ylabel("k_u [dB]")
 comparison_path=plots_path+"/comparison.png";
 saveas(optimal_figure,comparison_path);
 
+%% display optimization results
+optim_out.message
+fval_figure=figure('Name','Przebieg optymalziacji','NumberTitle','off','Position', [0 0 1600 900]);
+semilogy(output_fcn_results(:,11),'o','MarkerSize',3,'Color','red','LineWidth',2);
+fval_path=plots_path+"/fval.png";
+saveas(fval_figure,fval_path);
+
+
 
 %% display pareto
 
-
-pareto_figure=figure('Name','Pareto','NumberTitle','off','Position', [0 0 1600 900]);
-for i=1:length(x_pareto)
-    scatter(log(fg_pareto(i)),ku_pareto(i),'LineWidth',2);
-    text(log(fg_pareto(i)),ku_pareto(i),string(i),'HorizontalAlignment','center','VerticalAlignment', 'bottom');
+if(exist('x_pareto'))
+    pareto_figure=figure('Name','Pareto','NumberTitle','off','Position', [0 0 1600 900]);
+    for i=1:length(x_pareto)
+        scatter(log(fg_pareto(i)),ku_pareto(i),'LineWidth',2);
+        text(log(fg_pareto(i)),ku_pareto(i),string(i),'HorizontalAlignment','center','VerticalAlignment', 'bottom');
+        
+        hold on
+        
+    end
+    title("Granica Pareto i punkt optymalny GBW");
+    plot(log(fg_opt),ku_opt,'+','MarkerSize',15,'Color','red','LineWidth',3);
+    text(log(fg_opt),ku_opt,"Punkt optymalny GBW",'HorizontalAlignment','center','VerticalAlignment', 'bottom');
     set ( gca, 'xdir', 'reverse' )
     set ( gca, 'ydir', 'reverse' )
     hold on
-    
+    plot(log(fg_0),ku0,'x','MarkerSize',15,'Color','green','LineWidth',2);
+    text(log(fg_0),ku0,"Punkt startowy",'HorizontalAlignment','center','VerticalAlignment', 'bottom');
+    xlabel("log(f) [Hz]");
+    ylabel("k_u [dB]");
+    hold off
+    pareto_path=plots_path+"/pareto_front.png";
+    saveas(pareto_figure,pareto_path)
 end
-title("Granica Pareto i punkt optymalny GBW");
-plot(log(fg_opt),ku_opt,'+','MarkerSize',15,'Color','red','LineWidth',3);
-text(log(fg_opt),ku_opt,"Punkt optymalny GBW",'HorizontalAlignment','center','VerticalAlignment', 'bottom');
-
-hold on
-plot(log(fg_0),ku0,'x','MarkerSize',15,'Color','green','LineWidth',2);
-text(log(fg_0),ku0,"Punkt startowy",'HorizontalAlignment','center','VerticalAlignment', 'bottom');
-xlabel("log(f) [Hz]");
-ylabel("k_u [dB]");
-hold off
-pareto_path=plots_path+"/pareto_front.png";
-saveas(pareto_figure,pareto_path)
-
-%% display optimization results
-% figure(10)
-% for i=3:10
-%     
-%     
-%    
-%     out_ac=run_sim(xs2x(output_fcn_results(i,2:8)),"kask4_ac");
-%     freq=out_ac.freq_vect;
-%     Aac=out_ac.variable_mat(6,:);
-%     fg=get_fg(Aac,freq);
-%     
-%     semilogx(freq,db(abs(Aac)));
-%     pause
-% end
-% hold off
-
-
 
 
 

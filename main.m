@@ -1,11 +1,17 @@
 %% starting point results
-%clear
+clear
 close all;
-%% Choose starting point
+% Choose starting point
 %-----------------
-%x0=[15 5 45 250 350 220 500];
-x0=[25 20 15 100 230 135 370];
+x0=[15 55 320 220 500 45 50];
+%duże ku
+%x0=[8 20 320 210 700 23 220 ];
+
+
+%x0=[25 20 230 135 370 50 50 ];
 %x0=[50 80 15 100 230 90 370];
+
+
 
 %x0=[20.8297483895642,0.200000000000000,22.5000000000000,125,230,135,370]
 %x0=[15 8 15 20 230 120 270];
@@ -47,7 +53,7 @@ Aac_0=db(abs(Aac_0));
 %Aac_0=10*log(abs(Aac_0));
 fg_0=get_fg(Aac_0,freq_0);
 GBW0=Aac_0(1)*fg_0;
-GBW=log(Aac_0(1)*fg_0);
+GBW0l=log(Aac_0(1)*fg_0);
 b=boost(Aac_0);
 ku0=abs(Aac_0(1));
 
@@ -68,7 +74,9 @@ ylabel("Wzmocnienie")
 x2xs=@ (xs) xs./x0;
 xs2x=@ (x) x.*x0;
 %% bounds
-lb=[0.1 0.1 0.1 0.1 0.1 0.1 0.1]; ub=[10 10 10 10 10 10 10];
+%lb=[0.01 0.1 0.1 0.1 0.1 0.9 0.9]; ub=[2 2 5 5 10 2 2];
+lb=[0.01 0.1 0.1 0.1 0.1 0.9 0.9]; ub=[1.1 1.1 5 5 10 2 2];
+
 %% Output function results file preparation
 delete output_results
 fileID = fopen('output_results','a+');
@@ -81,13 +89,14 @@ if (method_switch==0)
     fun=@(xs) obj_fun(xs2x(xs));
     constr=@(xs) nonlcon(xs2x(xs));
     %,'FinDiffRelStep',1e-5
-    opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},'OutputFcn',@output_fun);
-    [xs_opt,fval_opt,exitflag]=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
+    opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},...
+        'OutputFcn',@output_fun,'FinDiffRelStep',1e-2);
+    [xs_opt,fval_opt,exitflag,optim_out]=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
     x_opt=xs2x(xs_opt);
 end
 
 if(method_switch==1)
-    opts = optimoptions('patternsearch','Display','iter','PlotFcn',{'psplotbestf','psplotmeshsize','psplotbestx'},'MaxTime',3600);
+    opts = optimoptions('patternsearch','Display','iter','PlotFcn',{'psplotbestf','psplotmeshsize','psplotbestx'},'MaxTime',3600,'PollMethod','MADSPositiveBasis2N');
     fun=@(xs) obj_fun(xs2x(xs));
     constr=@(xs) nonlcon(xs2x(xs));
     [xs_opt]=patternsearch(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
@@ -116,7 +125,7 @@ disp(fg_opt);
 fun=@(xs) obj_pareto(xs2x(xs));
 p_constr=@(xs) pareto_constr(xs2x(xs));
 %,'InitialPoints',x2xs(x_opt)
-opts=optimoptions('paretosearch','Display','iter','PlotFcn',{'psplotparetof'},'MaxIterations',15,'MaxTime',1800);
+opts=optimoptions('paretosearch','Display','iter','PlotFcn',{'psplotparetof'},'ParetoSetSize',20,'MaxTime',1800,'InitialPoints',x2xs(x0));
 x_pareto=paretosearch(fun,7,[],[],[],[],lb,ub,p_constr,opts);
 
 %% get pareto points

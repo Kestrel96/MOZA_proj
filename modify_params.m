@@ -13,8 +13,8 @@ function  modify_params(params)
 %.PARAM Voff=0
 %.PARAM Vs=0.1
 %.PARAM fs=1k
-names=["REE1" "REE2" "CEE" "CG" "RE" "RC2" "RC3"];
-suffix=[' ' ' ' 'p' 'p' ' ' ' ' ' '];
+names=["REE1" "REE2" "RE" "RC2" "RC3" "CEE" "CG" ];
+suffix=[' ' ' '  ' ' ' ' ' ' 'p' 'p'];
 file = fopen("spice/params.inc",'w');
 
 for i=1:length(params)

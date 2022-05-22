@@ -1,9 +1,13 @@
 %% starting point results
 clear
 close all;
+%%
 % Choose starting point
 %-----------------
-x0=[15 55 320 220 500 45 50];
+%małe ku duże fg
+%x0=[25 15 1500 220 200 5 500];
+
+x0=[5 15 320 220 200 45 50];
 %duże ku
 %x0=[8 20 320 210 700 23 220 ];
 
@@ -74,8 +78,8 @@ ylabel("Wzmocnienie")
 x2xs=@ (xs) xs./x0;
 xs2x=@ (x) x.*x0;
 %% bounds
-%lb=[0.01 0.1 0.1 0.1 0.1 0.9 0.9]; ub=[2 2 5 5 10 2 2];
-lb=[0.01 0.1 0.1 0.1 0.1 0.9 0.9]; ub=[1.1 1.1 5 5 10 2 2];
+lb=[0.01 0.1 0.1 0.1 0.1 0.1 0.1]; ub=[2 2 5 5 10 10 10];
+%lb=[0.01 0.1 0.1 0.1 0.1 0.9 0.9]; ub=[1.1 1.1 5 5 10 5 2];
 
 %% Output function results file preparation
 delete output_results
@@ -119,32 +123,35 @@ disp(fg_opt);
 
 
 
-%% Pareto
-
-
-fun=@(xs) obj_pareto(xs2x(xs));
-p_constr=@(xs) pareto_constr(xs2x(xs));
-%,'InitialPoints',x2xs(x_opt)
-opts=optimoptions('paretosearch','Display','iter','PlotFcn',{'psplotparetof'},'ParetoSetSize',20,'MaxTime',1800,'InitialPoints',x2xs(x0));
-x_pareto=paretosearch(fun,7,[],[],[],[],lb,ub,p_constr,opts);
-
-%% get pareto points
-
-for i=1:length(x_pareto)
-    out_ac=run_sim(xs2x(x_pareto(i,:)),"kask4_ac");
-    freq=out_ac.freq_vect;
-    Aac=out_ac.variable_mat(6,:);
-
-    fg_pareto(i)=get_fg(Aac,freq);
-    ku_pareto(i)=abs(Aac(1));
-    b_pareto=boost(Aac);
-    GBW_pareto=abs(Aac(1))*fg_pareto(i);
-
-end
+% %% Pareto
+%
+%
+% fun=@(xs) obj_pareto(xs2x(xs));
+% p_constr=@(xs) pareto_constr(xs2x(xs));
+% %,'InitialPoints',x2xs(x_opt)
+% opts=optimoptions('paretosearch','Display','iter','PlotFcn',{'psplotparetof'},'ParetoSetSize',20,'MaxTime',1800,'InitialPoints',x2xs(x0));
+% x_pareto=paretosearch(fun,7,[],[],[],[],lb,ub,p_constr,opts);
+%
+% %% get pareto points
+%
+% for i=1:length(x_pareto)
+%     out_ac=run_sim(xs2x(x_pareto(i,:)),"kask4_ac");
+%     freq=out_ac.freq_vect;
+%     Aac=out_ac.variable_mat(6,:);
+%
+%     fg_pareto(i)=get_fg(Aac,freq);
+%     ku_pareto(i)=abs(Aac(1));
+%     b_pareto=boost(Aac);
+%     GBW_pareto=abs(Aac(1))*fg_pareto(i);
+%
+% end
 %% Save latest data
+if(exist('x_pareto'))
+    x_pareto_scaled=xs2x(x_pareto);
+end
 save_path=results_path+"/latest.mat";
 save(save_path);
-x_pareto_scaled=xs2x(x_pareto);
+
 display_results
 
 

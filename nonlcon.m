@@ -9,9 +9,12 @@ freq=out_ac.freq_vect;
 b=boost(Aac);
 fg=get_fg(Aac,freq);
 ku=abs(Aac(1));
-c(1)=-(fg/200e6-1);
-c(2)=-(ku/10-1);
-c(3)=(b-1);
+fgmin=200e6;
+kumin=20;
+bmax=1;
+c(1)=-(fg/fgmin-1);
+c(2)=-(ku/kumin-1);
+c(3)=(b-bmax);
 
 
 ceq = [];

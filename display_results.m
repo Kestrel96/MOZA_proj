@@ -8,19 +8,22 @@ Aac=out_ac.variable_mat(6,:);
 fg=get_fg(Aac,freq);
 optimal_figure=figure('Name','OmptimalResults','NumberTitle','off','Position', [0 0 1600 900]);
 semilogx(freq_0,abs(Aac_0),'Color','blue','LineWidth',2)
+text(10e5,ku0,sprintf("ku_{0}=%0.2f",ku0),'Color','blue','VerticalAlignment', 'bottom');
 
-xline(fg_0,"--","Color",'blue','Label','fg_{0}','LabelVerticalAlignment','bottom')
-yline(abs(Aac_0(1))-3,"-.",'Color','blue','Label','k_{u0(3dB)}')
+xline(fg_0,"--","Color",'blue','Label',sprintf('fg_{0}=%e',fg_0),'LabelVerticalAlignment','bottom')
+yline(abs(Aac_0(1))-3,"-.",'Color','blue','Label','k_{u0(-3dB)}')
 hold on
 semilogx(freq,abs(Aac_opt),'Color','red','LineWidth',2);
-xline(fg_opt,"--","Color",'red','Label','fg_{opt}','LabelVerticalAlignment','top')
-yline(abs(Aac_opt(1))-3,"-.",'Color','red','Label','k_{uopt(3dB)}')
+text(10e5,ku_opt,sprintf("ku_{opt}=%0.2f",ku_opt),'Color','red','VerticalAlignment', 'bottom');
+xline(fg_opt,"--","Color",'red','Label',sprintf("fg_{opt}=%e",fg_opt),'LabelVerticalAlignment','top')
+yline(abs(Aac_opt(1))-3,"-.",'Color','red','Label','k_{uopt(-3dB)}')
 xline(200e6,"Color",'green','Label',"200 MHz",'LabelVerticalAlignment','middle')
-
 legend("Punkt startowy","f_{g0}","k_{u0(3dB)}","Punkt optymalny","f_{gopt}","k_{uopt(3dB)}","200 MHz",'Location','best')
 title("Porównanie wyników w pkt. początkowym i optymalnym")
 xlabel("f [Hz]")
 ylabel("k_u [dB]")
+
+text(1e4,5,sprintf("^{GBW_{opt}}/_{GBW_0}=%0.3f",GBW_opt/GBW0));
 comparison_path=plots_path+"/comparison.png";
 saveas(optimal_figure,comparison_path);
 

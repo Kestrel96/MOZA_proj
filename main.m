@@ -61,17 +61,20 @@ GBW0l=log(Aac_0(1)*fg_0);
 b=boost(Aac_0);
 ku0=abs(Aac_0(1));
 
-figure(1)
-semilogx(freq_0,abs(Aac_0))
+starting_figure=figure('Name','Wyniki w pkt. pocz.','NumberTitle','off','Position', [0 0 1600 900]);
+figure(starting_figure)
+semilogx(freq_0,abs(Aac_0),'Color','blue','LineWidth',2)
 ylim([-10 50])
-xline(fg_0,"--","Color",'blue')
+xline(fg_0,"--","Color",'blue','Label',sprintf("f_{g}=%e",fg_0))
 yline(abs(Aac_0(1))-3,"--")
 xline(200e6,"Color",'green','Label',"200MHz")
-legend("X_0","f_{g0}")
+legend("k_{u}")
 title("Wyniki w punkcie początkowym")
 xlabel("Częstotliwość [Hz]")
-ylabel("Wzmocnienie")
+ylabel("k_{u}[dB]")
 
+starting_figure_path=plots_path+"/starting_point.png";
+saveas(starting_figure,starting_figure_path);
 
 
 %% scale

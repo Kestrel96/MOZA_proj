@@ -28,10 +28,10 @@
 
 
 \section*{Opis problemu}
-Zadanie polega na doborze wartości elementów wzmacniacza tak, aby uzyskać makymalnie duży iloczyn
-GBW. Na układ nałożono dodatkowe ograniczenia w postaci minimalnego wzmocnienia dla małych częstotliwości $k_{u0} > 10 dB$ oraz minimalnej częstotliwości
-granicznej $f_g > 200 MHz$ (rozumianej jako częstoliwość spadku o 3 dB względem $k_{u0}$).
-\section{Sformułowanie matematyczne zadań optymalizacji}
+Zadanie polega na doborze wartości elementów wzmacniacza tak, aby uzyskać maksymalnie duży iloczyn
+GBW. Na układ nałożono dodatkowe ograniczenia w postaci minimalnego wzmocnienia dla małych częstotliwości $k_{u0} > 20 dB$ ($10 \frac{V}{V}$ dla źródła AC o amplitudzie 1 V) oraz minimalnej częstotliwości
+granicznej $f_g > 200 MHz$ (rozumianej jako częstotliwość spadku o 3 dB względem $k_{u0}$).
+\section{Sformułowanie matematyczne zadania optymalizacji}
 Poszukiwane jest minimum funkcji celu:
 \[ \min\limits_{\textbf{x}\in \mathbf{R}^+  } f(\textbf{x}) \]
 p.o.
@@ -45,14 +45,14 @@ gdzie:
 			REE1 & REE2 & RE & RC2 & RC3 & CEE & CG
 		\end{bmatrix}$,
 \end{center}
-\(k_{u0}\) - wzmocnienie dla małych częstoliwości, rozumiane jako wzmocnienia dla częstoltiwości 1 kHz.\\
-\(f_{g}\) - częstoliwość graniczna, rozumiana jako częstotliwość, dla której wzmocnienie
+\(k_{u0}(\textbf{x})\) - wzmocnienie dla małych częstotliwości, rozumiane jako wzmocnienie dla częstotliwości 1 kHz.\\
+\(f_{g}(\textbf{x})\) - częstotliwość graniczna, rozumiana jako częstotliwość, dla której wzmocnienie
 spada o 3 dB względem $k_{u_{0}}(\textbf{x}) $.
 
-Parametry $k_{u0}(\textbf{x})$ oraz $f_g(\textbf{x})$ obliczane są w Matlabie na pdostawie surowych danych ($U^{AC}_{out}(x,f)$) zwaracnych
+Parametry $k_{u0}(\textbf{x})$ oraz $f_g(\textbf{x})$ obliczane są w Matlabie na podstawie surowych danych ($U^{AC}_{out}(x,f)$) zwracanych
 przez symulator LTSpice.
 
-Dodatkowo, w zadaniu pojawiają się ogarniczenia nieliniowe związane z wymaganiami projektowymi:\\
+Dodatkowo, w zadaniu pojawiają się ograniczenia nieliniowe związane z wymaganiami projektowymi:\\
 \begin{itemize}
 	\item \(g_1(\textbf{x}): -(\frac{k_{u0}(\textbf{x})}{k_{u_{min}}}-1) <  0\) \\ Warunek minimalnego wzmocnienia, $k_{umin}=20dB$
 	\item \(g_2(\textbf{x}): -(\frac{{f_g}(\textbf{x})}{f_{g_{min}}}-1)<0\) \\ Warunek minimalnej częstotliwości granicznej, $f_{gmin}=200 MHz$
@@ -63,7 +63,7 @@ Dodatkowo, w zadaniu pojawiają się ogarniczenia nieliniowe związane z wymagan
 
 
 \section{Wyznaczenie przybliżenia początkowego rozwiązania}
-Zgodnie z poleceniem zmodyfiokowano domyślne parametry tak, aby uzyskać rozwiąznie spełniające warunek minmalnej częstotliwości granicznej i wzmocnienia.
+Zgodnie z poleceniem zmodyfikowano domyślne wartości elementów tak, aby uzyskać rozwiązanie spełniające warunek minimalnej częstotliwości granicznej i wzmocnienia.
 Ostatecznie, po wybraniu wartości, wektor \textbf{x} wygląda następująco:
 \begin{center}
 	$\textbf{x}$ =
@@ -80,10 +80,10 @@ Wyniki w punkcie początkowym można zobaczyć na poniższym wykresie:
 	\caption{Charakterystyka układu w punkcie startowym.}
 \end{figure}
 
-Jak widać spełnione są warunki postawione w zadaniu (minimalna wartość wzmocnenia to 20 dB, przy źródle AC mającym 1V amplitudy) oraz wzmacniacz pracuje prawidłowo.
+Jak widać spełnione są warunki postawione w zadaniu (minimalna wartość wzmocnienia to 20 dB, przy źródle AC mającym 1 V amplitudy) oraz wzmacniacz pracuje prawidłowo (symulacja czasowa wykonan w LTSpice potwierdziła prawidłową pracę układu).
 \pagebreak
 
-Aby potwierdzić, że Matlab i Spice zwracją te same wyniki przeprowadzono symulację w LTSpice:
+Aby potwierdzić, że Matlab i Spice zwracają te same wyniki przeprowadzono symulację w LTSpice:
 \begin{figure}[h]
 	\includegraphics[width=12cm]{graphics/starting_point_spice.png}
 	\centering
@@ -91,18 +91,20 @@ Aby potwierdzić, że Matlab i Spice zwracją te same wyniki przeprowadzono symu
 \end{figure}
 
 
+
+
 \section{Wyznaczanie parametrów roboczych, gładkość funkcji celu, opis kodu}
 \subsection{Wyznaczanie parametrów roboczych}
 W zadaniu badane są trzy parametry: częstotliwość graniczna, wzmocnienie oraz podbicie charakterystyki.
 
 \subsubsection*{Podbicie $b$}
-Podbicie rozumiane jest jako różnica między wzmocnieniem $k_u0$ a maksymalnym wzmocnieniem jakie osiąga charakterystyka.
-\subsubsection*{Wzmocnienie małoczęstotliwościowe $k_u0$}
+Podbicie rozumiane jest jako różnica między wzmocnieniem $k_{u0}$ a maksymalnym wzmocnieniem jakie osiąga charakterystyka.
+\subsubsection*{Wzmocnienie małoczęstotliwościowe $k_{u0}$}
 Wzmocnienie $k_u$ rozumiane jest jako wartość wzmocnienia pozyskana z danych $U^{AC}_{out}(x,f)$ dla częstotliwości 1 KHz.
 
 \subsubsection*{Częstotliwość graniczna $f_g$}
 Częstotliwość graniczna wyznaczana jest jako częstotliwość, dla której wzmocnienie względem $k_{u{_0}}$ spada o 3 dB.
-Ponieważ LTSpice zwraca wyniki w postaci punktów, uznano, że wymagana jest interpolacja częstotliwości granicznej. Interpolacja pozwoliła zminimalizaować "skoki" w funkcji celu. Do interpoalcji wykorzystano wielomian drugiego stopnia. Wynik interpolacji przedstawia poniższy wykres:
+Ponieważ LTSpice zwraca wyniki w postaci punktów, uznano, że wymagana jest interpolacja częstotliwości granicznej. Interpolacja pozwoliła zminimalizować ''skoki'' w funkcji celu. Do interpolacji wykorzystano wielomian drugiego stopnia. Wynik interpolacji przedstawia poniższy wykres:
 \begin{figure}[h]
 	\includegraphics[width=8cm]{graphics/fg_interp.png}
 	\centering
@@ -112,66 +114,71 @@ Ponieważ LTSpice zwraca wyniki w postaci punktów, uznano, że wymagana jest in
 
 
 
-\subsection{Gładkość funkcji celu}
-Przyjęto, że funkcja celu, w borębie odpowiednich wartości elemntów układu, jest ciągła. Tak długo, w układzie zmieniane są wartości pojemności i rezystancji i
-nie powodują nieprawidłowej pracy układu zawsze możliwe będzie otrzymanie charaktertystyki, która, nawet jeśli nie spełnia wymagań projektowych, otrzymanie prawidłowej odpowiedzi (bez dużych skoków
+\subsection{Gładkość funkcji celu i ograniczeń}
+Przyjęto, że funkcja celu, w obrębie odpowiednich wartości elementów układu, jest ciągła. Tak długo, jak w układzie zmieniane są wartości pojemności i rezystancji i
+nie powodują nieprawidłowej pracy układu zawsze możliwe będzie otrzymanie charakterystyki, która, nawet jeśli nie spełnia wymagań projektowych, daje ''sensowne'' wartości paremetrów roboczych (bez dużych skoków
 np. wzrost wzmocnienia do 10000 dB).
-\subsection{Opis kodu}
-Dołączony katalog z kodem podzielony został na odpowiednie katalogi dla wyników (results i plots zapisany worksapce z Matlaba, wykresy) i plików dla symulacji(spice).
-W katalogu głównym katalogu znajdują się skrypty i m-funckje. 
 
-Aby uruchamić optymalizację należy uruchomić skrypt main.m. Po optymalziacji wyniki zostaną zapisane do odpowiednich folderów.
+Funckje ograniczeń i celu mogą być w niektórych przypadkach niegładkie. Solver fmincon nie spełnia ograniczeń dla każdej iteracji, przez co teoretycznie może zdarzyć się np. płaska charakterystyka, 
+dla której funkcje nie są gładkie. Przeporwadzone próby wykazały jednak, że problem ten zachodzi bardzo rzadko i ma niewielki wpływ na optymalizację.
+\subsection{Opis kodu}
+Dołączony katalog z kodem podzielony został na odpowiednie katalogi dla wyników (results, gdzie zapisany jest workspace z Matlaba i plots, wykresy) i plików dla symulacji(spice).
+W katalogu głównym znajdują się skrypty i m-funckje. W celu weryfikacji poprawności działania kodu można uruchomić skrypt starting\_point.m, który przedstawia wyniki w pkt. początkowym.
+
+Aby uruchomić optymalizację należy uruchomić skrypt main.m. Po optymalizacji wyniki zostaną zapisane do odpowiednich folderów.
 
 Aby nie czekać aż optymalizator zakończy pracę (ok. 5 minut) można wczytać gotowe wyniki za pomocą komendy load("results/latest.mat").
 
 \subsubsection*{Opis plików}
 \begin{itemize}
-	\item main.m - główny skrypt realizujący zadanie optymalizacji. 
+	\item main.m - główny skrypt realizujący zadanie optymalizacji.
 	\item display\_results.m - Skrypt wyświetlający wyniki optymalizacji. Uruchamiany automatycznie po main.m
+	\item starting\_point.m - Skrypt obliczający wyniki w pkt. startowym. Do weryfikacji działania funkcji.
 	\item get\_fg.m - Funckja obliczająca częstotliwość graniczną.
 	\item boost.m - Funckja obliczająca podbicie charakterystyki.
-	\item extract\_results.m - Funckja odczytująca dane z pliku output\_results powstającego przez funckję output\_fun.
-	\item modify\_params.m - Funckja modyfikująca paremetry w pliku params.inc
-	\item nonlcon.m - Funkcja nieliniowych ogarniczeń nierównowściowych.
+	\item extract\_results.m - Funkcja odczytująca dane z pliku output\_results powstającego przez funckję output\_fun.
+	\item modify\_params.m - Funkcja modyfikująca parametry w pliku params.inc
+	\item nonlcon.m - Funkcja nieliniowych ograniczeń nierównościowych.
 	\item obj\_fun.m - Implementacja funkcji celu.
-	\item output\_fun.m - Funkcja wyjściowa dla optymalizatora.  
-	\item run\_sim.m - Funckja uruchamiająca symulator LTSpice.
+	\item output\_fun.m - Funkcja wyjściowa dla optymalizatora.
+	\item run\_sim.m - Funkcja uruchamiająca symulator LTSpice.
 	\item LTspice2Matlab.m - Funkcja do odczytu danych z LTSpice.
 \end{itemize}
 
 \section{Propozycja rozwiązania numerycznego}
-\subsection{Alogrytm, skalowanie}
+\subsection{Algorytm, skalowanie}
 \subsection*{Solver i algorytm optymalizacji}
 Jako solver wykorzystano fmincon z domyślnym algorytmem (Interior Point). Zdecydowano się na wykorzystanie
-metod gradientowych, ponieważ założono gładkość funkcji dla danych ograniczeń. 
+metod gradientowych, ponieważ założono gładkość funkcji dla danych ograniczeń.
 
-Po próbach przeprowadzoncyh w LTSpice ustalono, że niektóre elementy mają większy wpływ na układ niż inne, jednak, przy różnych kombinacjach wartości, wpływ rożnych elementów jest trudny do przeiwdzenia.
-Stwierdzono np. że zmniejszanie wartości REE1 powoduje wzrost wzmocnienia przy spadku pasma, manipulowanie pojemnością CEE wpłyaw na pasmo, CG na podbice itp. 
-Ponieważ nie znaleziono jednoznacznej zależnośći (działanie na kształ alogrytmu Gaussa-Seidla) postanowiono nie ograniczać liczby optymalizowanych zmiennych, a jedynie zadbać o odpowiednie 
+Po próbach przeprowadzonych w LTSpice ustalono, że niektóre elementy mają większy wpływ na układ niż inne, jednak, przy różnych kombinacjach wartości, wpływ rożnych elementów jest trudny do przewidzenia.
+Stwierdzono np. że zmniejszanie wartości REE1 powoduje wzrost wzmocnienia przy spadku pasma, manipulowanie pojemnością CEE wpływa na pasmo, CG na podbicia itp.
+Ponieważ nie znaleziono jednoznacznej zależności (działanie na kształt algorytmu Gaussa-Seidla) postanowiono nie ograniczać liczby optymalizowanych zmiennych, a jedynie zadbać o odpowiednie
 ograniczenia kostkowe parametrów.
 \subsection*{Skalowanie}
-Zarówno wektor wartości elemntów jak i funkcja celu zostały przeskalowane. 
+Zarówno wektor wartości elementów jak i funkcja celu zostały przeskalowane.
 
 W przypadku wektora parametrów optymalizowanych zastosowano proste skalowanie do 1 względem punktu startowego $\frac{x}{x_0}$.
-Jest to wymagane ponieważ rezystancje są na poziomi kilkuset ohmów podczas gdy pojemności na poziomie pikofaradów.
+W badanym przypadku wartości są podobnego rzędu (jednostki zostają dopisane dopiero w funkcji modyfikującej plik z parametrami), jednak dla przejrzystości psotawnowiono wykonać
+skalowanie wektora względem wektora startowego.
 
-W przypadku funkcji celu iloczyn wzmocnienia i częstotliwości granicznej sięga rzędu $10^9$. 
+W przypadku funkcji celu iloczyn wzmocnienia i częstotliwości granicznej sięga rzędu $10^9$.
 Aby usprawnić pracę optymalizatora wyjście z zaimplementowanej funkcji celu jest postaci $-log(GBW)$.
 \pagebreak
 \subsection{Przebieg optymalizacji, otrzymane wyniki}
-Optymalizowane są wszytskie parametry dostępne w zadaniu. Ograniczenia dobrano na podstawie metody prób i błędów i zapisano w postaci wektorów lb i ub w pliku main.m.
-Dolne ograniczenie zapewnia, że wszytskie elementy mają dodatnie wartości. 
+Zmieniane są wszytskie wartości parametrów dostępne w zadaniu. Ograniczenia dobrano na podstawie metody prób i błędów i zapisano w postaci wektorów lb i ub w pliku main.m.
+Dolne ograniczenie zapewnia, że wszystkie elementy mają dodatnie wartości.
 
-Przebieg optymalizacji zoabczyć można poniżej:
+Przebieg optymalizacji zobaczyć można poniżej:
 
 \begin{table}[h]
 	\centering
 	\begin{tabular}{lllll}
-		   & $k_u$ {[}dB{]} & $f_g$ {[}MHz{]} & GBW {[}$dB \cdot MHz${]} & b {[}dB{]} \\
-	P. start   & 27,33         & 4,345          & 1,187                                 & 0,198      \\
-	P. opt. & 26,13         & 6,838          & 1,781                                 & 0,371     
+		         & $k_u$ {[}dB{]} & $f_g$ {[}MHz{]} & GBW {[}$dB \cdot MHz${]} & b {[}dB{]} \\
+		P. start & 27,33          & 4,345           & 1,187                    & 0,198      \\
+		P. opt.  & 26,13          & 6,838           & 1,781                    & 0,371
 	\end{tabular}
-	\end{table}
+\end{table}
 
 
 \begin{figure}[h]
@@ -210,11 +217,9 @@ Przebieg optymalizacji zoabczyć można poniżej:
 
 
 
-
 \clearpage
-\begin{center}
-	\title{ \huge \textbf{Wykresy w dużej rozdzielczości}}
-\end{center}
+\section{Grafiki w wysokiej rozdzielczości.}
+
 
 \begin{landscape}
 	\begin{figure}[h]
@@ -271,8 +276,8 @@ Przebieg optymalizacji zoabczyć można poniżej:
 	\begin{figure}[h]
 		\vspace*{-2cm}
 		\includegraphics[width=20cm,height=10cm]{graphics/optim_tran.png}
-	\centering
-	\caption{Symulacja czasowa w pkt. optymalnym. Wzmacniacz wzmacnia.}
+		\centering
+		\caption{Symulacja czasowa w pkt. optymalnym. Wzmacniacz wzmacnia.}
 	\end{figure}
 \end{landscape}
 

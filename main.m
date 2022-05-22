@@ -1,6 +1,6 @@
 clear
 close all;
-%% Wybór punktu startowego
+%% Wybór punktu startowego (ku0 oraz fg0 odnoszą się do pkt startowego w całym skrypcie)
 x0=[5 15 320 220 200 45 50];
 results_path="results";
 plots_path="plots";
@@ -49,7 +49,7 @@ fun=@(xs) obj_fun(xs2x(xs)); %uchwyt do f. celu
 constr=@(xs) nonlcon(xs2x(xs)); %uchwy to f. ograniczeń
 %,'FinDiffRelStep',1e-5
 opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},...
-    'OutputFcn',@output_fun,'FinDiffRelStep',1e-2);
+    'OutputFcn',@output_fun,'FinDiffRelStep',1e-2); %zmodyfiokowano długość kroku
 tic;
 [xs_opt,fval_opt,exitflag,optim_out]=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts); %zwracany jest (przeskalowany) punkt optymalny, wartość funkcji, informacje wyjściowe.
 elapsed=toc;

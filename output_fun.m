@@ -1,10 +1,12 @@
 function stop = output_fun(x,optimValues,state)
-%OUTPUT_FUN Summary of this function goes here
-%   Detailed explanation goes here
+%OUTPUT_FUN Funckja wyjściowa
+%   Funkcja uruchamiana dla każdej iteracji. Zapisuje przebieg wartości f.
+%   celu, spełnienie ograniczeń ilość iteracji i wywoałań f. celu, punkty
+%   dla każdej iteracji.
 
 fileID = fopen('output_results','a+');
 
-if(optimValues.constrviolation >10e-6)
+if(optimValues.constrviolation >10e-6) % warunek spełnienia ograniczeń (tolerancja domyślna dla matlaba)
     feasible=0;
 else
     feasible=1;

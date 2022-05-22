@@ -1,33 +1,16 @@
-%% starting point results
+
 clear
 close all;
-%%
+%% Wybór punktu startowego
 % Choose starting point
 %-----------------
 %małe ku duże fg
 %x0=[25 15 1500 220 200 5 500];
-
-x0=[5 15 320 220 200 45 50];
 %duże ku
 %x0=[8 20 320 210 700 23 220 ];
+%kandydat
+x0=[5 15 320 220 200 45 50];
 
-
-%x0=[25 20 230 135 370 50 50 ];
-%x0=[50 80 15 100 230 90 370];
-
-
-
-%x0=[20.8297483895642,0.200000000000000,22.5000000000000,125,230,135,370]
-%x0=[15 8 15 20 230 120 270];
-%x0=[39     2    23   268   358   210   688];
-%x0=[45 20 23 220 320 210 700];
-%points from pareto set
-%x0=[28.9229848492032,2,42.1878297848572,240.181815596788,370.303749261561,241.111417620530,997.688499801257];
-%best point from pareto
-%x0=[41.7679147209104,0.0751112681817843,56.0812946983207,383.446514581162,302.534925272885,206.660424139118,1893.50663464421]
-%pareto again (best so far)
-%x0=[41.0680233604586,0.200000000000000,20.9329004294496,139.388347648318,182.153860081774,123.742573067477,697.717622740244];
-%-----------------
 
 %method switch: 0=fmicon, 1=patternsearch;
 
@@ -48,7 +31,7 @@ if (method_switch==0)
 end
 
 
-%% Starting point
+%% Punkt startowy
 out_ac=run_sim(x0,"kask4_ac");
 freq_0=out_ac.freq_vect;
 Aac_0=out_ac.variable_mat(6,:);
@@ -76,25 +59,24 @@ ylabel("k_{u}[dB]")
 starting_figure_path=plots_path+"/starting_point.png";
 saveas(starting_figure,starting_figure_path);
 
-
-%% scale
-x2xs=@ (xs) xs./x0;
-xs2x=@ (x) x.*x0;
-%% bounds
+%% Skalowanie wektora parametrów
+x2xs=@ (xs) xs./x0; %do 1
+xs2x=@ (x) x.*x0; % do wartości rzeczywistych
+%% Ograniczenia górne i dolne
 lb=[0.01 0.1 0.1 0.1 0.1 0.1 0.1]; ub=[2 2 5 5 10 10 10];
 %lb=[0.01 0.1 0.1 0.1 0.1 0.9 0.9]; ub=[1.1 1.1 5 5 10 5 2];
 
-%% Output function results file preparation
+%% Przygotowanie pliku do zbierania danych z optymalizatora
 delete output_results
 fileID = fopen('output_results','a+');
 header=["iter" "x1" "x2" "x3" "x4" "x5" "x6" "x7" "feasible" "fcnt" "fval"];
 fprintf(fileID,"%s %s %s %s %s %s %s %s %s %s %s\n",header);
 fclose(fileID);
 
-%% optimize
+%% Optymalizacja
 if (method_switch==0)
-    fun=@(xs) obj_fun(xs2x(xs));
-    constr=@(xs) nonlcon(xs2x(xs));
+    fun=@(xs) obj_fun(xs2x(xs)); %uchwyt do f. celu
+    constr=@(xs) nonlcon(xs2x(xs)); %uchwy to f. ograniczeń
     %,'FinDiffRelStep',1e-5
     opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},...
         'OutputFcn',@output_fun,'FinDiffRelStep',1e-2);
@@ -110,7 +92,7 @@ if(method_switch==1)
     x_opt=xs2x(xs_opt);
 end
 
-%% optimal point results
+%% Wyniki w pkt. optymalnym
 
 out_ac=run_sim(x_opt,"kask4_ac");
 freq_opt=out_ac.freq_vect;
@@ -148,13 +130,12 @@ disp(fg_opt);
 %     GBW_pareto=abs(Aac(1))*fg_pareto(i);
 %
 % end
-%% Save latest data
+%% Zapisanie danych
 if(exist('x_pareto'))
     x_pareto_scaled=xs2x(x_pareto);
 end
 save_path=results_path+"/latest.mat";
 save(save_path);
-
 display_results
 
 

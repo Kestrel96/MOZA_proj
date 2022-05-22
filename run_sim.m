@@ -1,8 +1,8 @@
 function [results] = run_sim(params,filename)
-%RUN_SIM Summary of this function goes here
-%   Detailed explanation goes here
+%RUN_SIM Uruchomienie LTSpice
+%    Funkcja uruchamiająca LTspice z poziomu matlaba. 
 
-%replace spice_string with path to SPICE:
+%Zmienić zmienną spice_string na ścieżkę do pliku wykonywawczego LTSpice.
 %----------------------------------
 spice_string="XVIIx64.exe";
 %----------------------------------

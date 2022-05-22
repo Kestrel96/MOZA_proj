@@ -1,6 +1,6 @@
 function  modify_params(params)
-%MODIFY_PARAMS Summary of this function goes here
-%   Detailed explanation goes here
+%MODIFY_PARAMS Wpisanie nowych parametrów do pliku params.inc
+%   Funkcja do manipulacji parametrami
 
 %.PARAM REE1=5
 %.PARAM REE2=8
@@ -13,17 +13,18 @@ function  modify_params(params)
 %.PARAM Voff=0
 %.PARAM Vs=0.1
 %.PARAM fs=1k
+
+
 names=["REE1" "REE2" "RE" "RC2" "RC3" "CEE" "CG" ];
 suffix=[' ' ' '  ' ' ' ' ' ' 'p' 'p'];
 file = fopen("spice/params.inc",'w');
-
+%parametry wypisywane w pętli po kolei, do pliku spice/params.inc
 for i=1:length(params)
     txt=sprintf(".PARAM %s=%i%c\n",names(i),params(i),suffix(i));
     fprintf(file,txt);
 end
 ending_params=sprintf("\n.PARAM Voff=0\n.PARAM Vs=0.1\n.PARAM fs=1k\n");
 fprintf(file,ending_params);
-
 fclose(file);
 
 end

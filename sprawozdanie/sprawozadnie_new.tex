@@ -53,10 +53,16 @@ Parametry $k_{u0}(\textbf{x})$ oraz $f_g(\textbf{x})$ obliczane są w Matlabie n
 przez symulator LTSpice.
 
 Dodatkowo, w zadaniu pojawiają się ogarniczenia nieliniowe związane z wymaganiami projektowymi:\\
-\(g_1(\textbf{x}): -(\frac{k_{u0}(\textbf{x})}{k_{u_{min}}}-1) <  0\) - warunek minimalnego wzmocnienia, $k_{umin}=20dB$\\
-\(g_2(\textbf{x}): -(\frac{{f_g}(\textbf{x})}{f_{g_{min}}}-1)<0\)- warunek minimalnej częstotliwości granicznej, $f_{gmin}=200 MHz$\\
-\(g_3(\textbf{x}): b(\textbf{x})-b_{max}<0\)- ograniczenie podbicia charakterystyki, $b_{max}=1dB$\\ Podbicie $b$ rozumiane jest jako różnica między maksymalnym poziomem wzmocnienia a $k_{u0}$.
-Podbicie jest obliczane w Matlabie.
+\begin{itemize}
+	\item \(g_1(\textbf{x}): -(\frac{k_{u0}(\textbf{x})}{k_{u_{min}}}-1) <  0\) \\ Warunek minimalnego wzmocnienia, $k_{umin}=20dB$
+	\item \(g_2(\textbf{x}): -(\frac{{f_g}(\textbf{x})}{f_{g_{min}}}-1)<0\) \\ Warunek minimalnej częstotliwości granicznej, $f_{gmin}=200 MHz$
+	\item \(g_3(\textbf{x}): b(\textbf{x})-b_{max}<0\) \\ Ograniczenie podbicia charakterystyki, $b_{max}=1dB$. Podbicie $b$ rozumiane jest jako różnica między maksymalnym poziomem wzmocnienia a $k_{u0}$.Podbicie jest obliczane w Matlabie.
+
+\end{itemize}
+% \(g_1(\textbf{x}): -(\frac{k_{u0}(\textbf{x})}{k_{u_{min}}}-1) <  0\) - warunek minimalnego wzmocnienia, $k_{umin}=20dB$\\
+% \(g_2(\textbf{x}): -(\frac{{f_g}(\textbf{x})}{f_{g_{min}}}-1)<0\)- warunek minimalnej częstotliwości granicznej, $f_{gmin}=200 MHz$\\
+% \(g_3(\textbf{x}): b(\textbf{x})-b_{max}<0\)- ograniczenie podbicia charakterystyki, $b_{max}=1dB$\\ Podbicie $b$ rozumiane jest jako różnica między maksymalnym poziomem wzmocnienia a $k_{u0}$.
+
 
 \section{Wyznaczenie przybliżenia początkowego rozwiązania}
 Zgodnie z poleceniem zmodyfiokowano domyślne parametry tak, aby uzyskać rozwiąznie spełniające warunek minmalnej częstotliwości granicznej i wzmocnienia.
@@ -86,11 +92,12 @@ Aby potwierdzić, że Matlab i Spice zwracją te same wyniki przeprowadzono symu
 	\caption{Charakterystyka układu w punkcie startowym.}
 \end{figure}
 
+\subsection{Opis kodu}
+
 
 
 \section{Metody rozwiązania numerycznego}
-\subsection{Wybór punktu startowego}
-\subsection{Matlab}
+
 \pagebreak
 \begin{center}
 	\title{ \huge \textbf{Etap 2}}

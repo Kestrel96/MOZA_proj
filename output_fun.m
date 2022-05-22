@@ -2,7 +2,7 @@ function stop = output_fun(x,optimValues,state)
 %OUTPUT_FUN Funckja wyjściowa
 %   Funkcja uruchamiana dla każdej iteracji. Zapisuje przebieg wartości f.
 %   celu, spełnienie ograniczeń ilość iteracji i wywoałań f. celu, punkty
-%   dla każdej iteracji.
+%   dla każdej iteracji. Standardowa postać matlaba.
 
 fileID = fopen('output_results','a+');
 

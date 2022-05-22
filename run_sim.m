@@ -1,8 +1,11 @@
 function [results] = run_sim(params,filename)
 %RUN_SIM Uruchomienie LTSpice
 %    Funkcja uruchamiająca LTspice z poziomu matlaba. 
+%   params -wektor parametrów
+%   filename - nazwa pliku symulacji (np. kask4_ac). Musi znadjować się w
+%   pliku spice.
 
-%Zmienić zmienną spice_string na ścieżkę do pliku wykonywawczego LTSpice.
+%Zmienić zmienną spice_string na ścieżkę do pliku wykonywalnego LTSpice.
 %----------------------------------
 spice_string="XVIIx64.exe";
 %----------------------------------

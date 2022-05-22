@@ -27,7 +27,7 @@
 \end{center}
 
 
-\section{Opis problemu}
+\section*{Opis problemu}
 Zadanie polega na doborze wartości elementów wzmacniacza tak, aby uzyskać makymalnie duży iloczyn
 GBW. Na układ nałożono dodatkowe ograniczenia w postaci minimalnego wzmocnienia dla małych częstotliwości $k_{u0} > 10 dB$ oraz minimalnej częstotliwości
 granicznej $f_g > 200 MHz$ (rozumianej jako częstoliwość spadku o 3 dB względem $k_{u0}$).
@@ -59,9 +59,7 @@ Dodatkowo, w zadaniu pojawiają się ogarniczenia nieliniowe związane z wymagan
 	\item \(g_3(\textbf{x}): b(\textbf{x})-b_{max}<0\) \\ Ograniczenie podbicia charakterystyki, $b_{max}=1dB$. Podbicie $b$ rozumiane jest jako różnica między maksymalnym poziomem wzmocnienia a $k_{u0}$.Podbicie jest obliczane w Matlabie.
 
 \end{itemize}
-% \(g_1(\textbf{x}): -(\frac{k_{u0}(\textbf{x})}{k_{u_{min}}}-1) <  0\) - warunek minimalnego wzmocnienia, $k_{umin}=20dB$\\
-% \(g_2(\textbf{x}): -(\frac{{f_g}(\textbf{x})}{f_{g_{min}}}-1)<0\)- warunek minimalnej częstotliwości granicznej, $f_{gmin}=200 MHz$\\
-% \(g_3(\textbf{x}): b(\textbf{x})-b_{max}<0\)- ograniczenie podbicia charakterystyki, $b_{max}=1dB$\\ Podbicie $b$ rozumiane jest jako różnica między maksymalnym poziomem wzmocnienia a $k_{u0}$.
+
 
 
 \section{Wyznaczenie przybliżenia początkowego rozwiązania}
@@ -82,7 +80,7 @@ Wyniki w punkcie początkowym można zobaczyć na poniższym wykresie:
 	\caption{Charakterystyka układu w punkcie startowym.}
 \end{figure}
 
-Jak widać spełnione są warunki postawione w zadaniu (minimalna wartość wzmocnenia to 20 dB, przy źródle AC mającym 1V amplitudy).
+Jak widać spełnione są warunki postawione w zadaniu (minimalna wartość wzmocnenia to 20 dB, przy źródle AC mającym 1V amplitudy) oraz wzmacniacz pracuje prawidłowo.
 \pagebreak
 
 Aby potwierdzić, że Matlab i Spice zwracją te same wyniki przeprowadzono symulację w LTSpice:
@@ -92,41 +90,89 @@ Aby potwierdzić, że Matlab i Spice zwracją te same wyniki przeprowadzono symu
 	\caption{Charakterystyka układu w punkcie startowym.}
 \end{figure}
 
+
+\section{Wyznaczanie parametrów roboczych, gładkość funkcji celu, opis kodu}
+\subsection{Wyznaczanie parametrów roboczych}
+W zadaniu badane są trzy parametry: częstotliwość graniczna, wzmocnienie oraz podbicie charakterystyki.
+
+\subsubsection*{Podbicie $b$}
+Podbicie rozumiane jest jako różnica między wzmocnieniem $k_u0$ a maksymalnym wzmocnieniem jakie osiąga charakterystyka.
+\subsubsection*{Wzmocnienie małoczęstotliwościowe $k_u0$}
+Wzmocnienie $k_u$ rozumiane jest jako wartość wzmocnienia pozyskana z danych $U^{AC}_{out}(x,f)$ dla częstotliwości 1 KHz.
+
+\subsubsection*{Częstotliwość graniczna $f_g$}
+Częstotliwość graniczna wyznaczana jest jako częstotliwość, dla której wzmocnienie względem $k_{u{_0}}$ spada o 3 dB.
+Ponieważ LTSpice zwraca wyniki w postaci punktów, uznano, że wymagana jest interpolacja częstotliwości granicznej. Interpolacja pozwoliła zminimalizaować "skoki" w funkcji celu. Do interpoalcji wykorzystano wielomian drugiego stopnia. Wynik interpolacji przedstawia poniższy wykres:
+\begin{figure}[h]
+	\includegraphics[width=8cm]{graphics/fg_interp.png}
+	\centering
+	\caption{Interpolacja częstotliwości granicznej.}
+\end{figure}
+
+
+
+
+\subsection{Gładkość funkcji celu}
+Przyjęto, że funkcja celu, w borębie odpowiednich wartości elemntów układu, jest ciągła. Tak długo, w układzie zmieniane są wartości pojemności i rezystancji i
+nie powodują nieprawidłowej pracy układu zawsze możliwe będzie otrzymanie charaktertystyki, która, nawet jeśli nie spełnia wymagań projektowych, otrzymanie prawidłowej odpowiedzi (bez dużych skoków
+np. wzrost wzmocnienia do 10000 dB).
 \subsection{Opis kodu}
+Dołączony katalog z kodem podzielony został na odpowiednie katalogi dla wyników (results i plots zapisany worksapce z Matlaba, wykresy) i plików dla symulacji(spice).
+W katalogu głównym katalogu znajdują się skrypty i m-funckje. 
 
+Aby uruchamić optymalizację należy uruchomić skrypt main.m. Po optymalziacji wyniki zostaną zapisane do odpowiednich folderów.
 
-
-\section{Metody rozwiązania numerycznego}
-
-\pagebreak
-\begin{center}
-	\title{ \huge \textbf{Etap 2}}
-\end{center}
-
-\section{Funckje celu i ograniczeń, skalowanie}
-\section{Wykorzystane algorytmy}
-\subsection{Interior Point}
-\subsubsection*{Jakość, zbieżność}
-\subsection{Patternsearch}
-\subsubsection*{Jakość, zbieżność}
-\section{Porównanie punktu startowego, optymalnego i zbioru Pareto}
-\section{Podsumowanie}
+\subsubsection*{Opis plików}
 \begin{itemize}
-	\item Czy zadania optymalizacji sformułwoano prawidłowo?
-	      \begin{itemize}
-		      \item tak
-	      \end{itemize}
-	\item Czy uzsykano widoczną poprawę właśności obiektu?
-	      \begin{itemize}
-		      \item tak
-	      \end{itemize}
-
-	\item Jaka jest złozoność obliczeniowa procesu optymalizacji?
-	      \begin{itemize}
-		      \item hahahah
-	      \end{itemize}
-
+	\item main.m - główny skrypt realizujący zadanie optymalizacji. 
+	\item display\_results.m - Skrypt wyświetlający wyniki optymalizacji. Uruchamiany automatycznie po main.m
+	\item get\_fg.m - Funckja obliczająca częstotliwość graniczną.
+	\item boost.m - Funckja obliczająca podbicie charakterystyki.
+	\item extract\_results.m - Funckja odczytująca dane z pliku output\_results powstającego przez funckję output\_fun.
+	\item modify\_params.m - Funckja modyfikująca paremetry w pliku params.inc
+	\item nonlcon.m - Funkcja nieliniowych ogarniczeń nierównowściowych.
+	\item obj\_fun.m - Implementacja funkcji celu.
+	\item output\_fun.m - Funkcja wyjściowa dla optymalizatora.  
+	\item run\_sim.m - Funckja uruchamiająca symulator LTSpice.
+	\item LTspice2Matlab.m - Funkcja do odczytu danych z LTSpice.
 \end{itemize}
+
+\section{Propozycja rozwiązania numerycznego}
+\subsection{Alogrytm, skalowanie}
+\subsection*{Solver i algorytm optymalizacji}
+Jako solver wykorzystano fmincon z domyślnym algorytmem (Interior Point). Zdecydowano się na wykorzystanie
+metod gradientowych, ponieważ założono gładkość funkcji dla danych ograniczeń. 
+
+Po próbach przeprowadzoncyh w LTSpice ustalono, że niektóre elementy mają większy wpływ na układ niż inne, jednak, przy różnych kombinacjach wartości, wpływ rożnych elementów jest trudny do przeiwdzenia.
+Stwierdzono np. że zmniejszanie wartości REE1 powoduje wzrost wzmocnienia przy spadku pasma, manipulowanie pojemnością CEE wpłyaw na pasmo, CG na podbice itp. 
+Ponieważ nie znaleziono jednoznacznej zależnośći (działanie na kształ alogrytmu Gaussa-Seidla) postanowiono nie ograniczać liczby optymalizowanych zmiennych, a jedynie zadbać o odpowiednie 
+ograniczenia kostkowe parametrów.
+\subsection*{Skalowanie}
+Zarówno wektor wartości elemntów jak i funkcja celu zostały przeskalowane. 
+
+W przypadku wektora parametrów optymalizowanych zastosowano proste skalowanie do 1 względem punktu startowego $\frac{x}{x_0}$.
+Jest to wymagane ponieważ rezystancje są na poziomi kilkuset ohmów podczas gdy pojemności na poziomie pikofaradów.
+
+W przypadku funkcji celu iloczyn wzmocnienia i częstotliwości granicznej sięga rzędu $10^9$. 
+Aby usprawnić pracę optymalizatora wyjście z zaimplementowanej funkcji celu jest postaci $-log(GBW)$.
+\pagebreak
+\subsection{Przebieg optymalizacji, otrzymane wyniki}
+Optymalizowane są wszytskie parametry dostępne w zadaniu. Ograniczenia dobrano na podstawie metody prób i błędów i zapisano w postaci wektorów lb i ub w pliku main.m 
+Przebieg optymalizacji zoabczyć można poniżej:
+
+
+\begin{figure}[h]
+	\includegraphics[width=12cm]{graphics/starting_point_spice.png}
+	\centering
+	\caption{Przebieg wartości funkcji celu.}
+\end{figure}
+
+\begin{figure}[h]
+	\includegraphics[width=12cm]{graphics/starting_point_spice.png}
+	\centering
+	\caption{Porównanie punktu optymalnego i startowego.}
+\end{figure}
+
 
 
 \pagebreak
@@ -170,6 +216,16 @@ Aby potwierdzić, że Matlab i Spice zwracją te same wyniki przeprowadzono symu
 		\includegraphics[width=25cm,height=15 cm]{graphics/comparison.png}
 		\centering
 		\caption{Porównanie wyników w punkcie optymalnym i startowym.}
+	\end{figure}
+\end{landscape}
+
+\pagebreak
+\begin{landscape}
+	\begin{figure}[h]
+		\vspace*{-2cm}
+		\includegraphics[width=20cm,height=10 cm]{graphics/fg_interp.png}
+		\centering
+		\caption{Interpolacja częstotliwości granicznej.}
 	\end{figure}
 \end{landscape}
 

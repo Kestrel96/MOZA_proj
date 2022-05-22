@@ -1,6 +1,8 @@
 function [c,ceq] = nonlcon(x)
 %NONLCON Nierównościowe ograniczenia dla zadania optymalizacji.
 %   Ogranicznenia nierównościowe na fg, ku i podbicie.
+%   x - przeskalowany do właściwej postaci wektore parametrów
+%   optymalizowanych
 
 %symulacja i pobranie danych
 out_ac=run_sim(x,"kask4_ac");

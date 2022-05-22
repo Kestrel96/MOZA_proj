@@ -1,6 +1,7 @@
 function  modify_params(params)
 %MODIFY_PARAMS Wpisanie nowych parametrów do pliku params.inc
 %   Funkcja do manipulacji parametrami
+%   params - wektor parametrów
 
 %.PARAM REE1=5
 %.PARAM REE2=8

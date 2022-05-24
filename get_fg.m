@@ -27,24 +27,22 @@ if(isempty(idx)== 0)% jeżeli nie znaleziono indeksu pomiń interpolację
         x=f;
         y=k;
         x1=linspace(f(1),f(3),100);
-        ws = warning('off','all');
-        [p]=polyfit(x,y,2);
-        warning(ws);
-        ku_approx=polyval(p,x1);
+        [p,S,mu]=polyfit(x,y,2);
+        ku_approx=polyval(p,(x1-mu(1))/mu(2));
         fg_index=find(ku_approx < ku,1); %znajdź fg z interpolowanego wielomianu
         fg=x1(fg_index);
-        %                      figure
-        %                      semilogx(freq,Aac,'.','LineWidth',2,'MarkerSize',20);
-        %                       hold on
-        %                       semilogx(x1,ku_approx,'LineWidth',2)
-        %                       xlabel("f [Hz]")
-        %                       ylabel("k_u [dB]")
-        %                       xlim([freq(idx-10) freq(idx+10)])
-        %                       xline(fg,'--');
-        %                       title("Interpolacja cz. granicznej")
-        %
-        %                       legend("Spice","Aproksymacja","f_g")
-        %                       hold off
+%         figure
+%         semilogx(freq,Aac,'.','LineWidth',2,'MarkerSize',20);
+%         hold on
+%         semilogx(x1,ku_approx,'LineWidth',2)
+%         xlabel("f [Hz]")
+%         ylabel("k_u [dB]")
+%         xlim([freq(idx-10) freq(idx+10)])
+%         xline(fg,'--');
+%         title("Interpolacja cz. granicznej")
+% 
+%         legend("Spice","Aproksymacja","f_g")
+%         hold off
 
         if (isempty(fg)) %jeśli nie znaleziono zwróć 0
             fg=0;

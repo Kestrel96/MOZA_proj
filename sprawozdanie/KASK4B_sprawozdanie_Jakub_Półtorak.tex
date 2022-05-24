@@ -32,6 +32,8 @@ Zadanie polega na doborze wartości elementów wzmacniacza tak, aby uzyskać mak
 GBW. Na układ nałożono dodatkowe ograniczenia w postaci minimalnego wzmocnienia dla małych częstotliwości $k_{u0} > 20 dB$ ($10 \frac{V}{V}$ dla źródła AC o amplitudzie 1 V) oraz minimalnej częstotliwości
 granicznej $f_g > 200 MHz$ (rozumianej jako częstotliwość spadku o 3 dB względem $k_{u0}$).
 \section{Sformułowanie matematyczne zadania optymalizacji}
+
+\subsection{Optymalizacja jednokryterialna}
 Poszukiwane jest minimum funkcji celu:
 \[ \min\limits_{\textbf{x}\in \mathbf{R}^+  } f(\textbf{x}) \]
 p.o.
@@ -59,6 +61,7 @@ Dodatkowo, w zadaniu pojawiają się ograniczenia nieliniowe związane z wymagan
 	\item \(g_3(\textbf{x}): b(\textbf{x})-b_{max}<0\) \\ Ograniczenie podbicia charakterystyki, $b_{max}=1dB$. Podbicie $b$ rozumiane jest jako różnica między maksymalnym poziomem wzmocnienia a $k_{u0}$.Podbicie jest obliczane w Matlabie.
 
 \end{itemize}
+\subsection{Optymalizacja wielokryterialna}
 
 
 

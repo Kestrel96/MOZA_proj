@@ -8,20 +8,23 @@ Aac=out_ac.variable_mat(6,:);
 Aac=db(abs(Aac));
 
 
-%drukowanie wykresów (jeśli potrzebne odkomentować)
-        %  figure(2)
-        %  semilogx(freq,abs(Aac))
-        %  ylim([-10 60])
-        %  xline(fg,"--","Color",'blue')
-        %  yline(abs(Aac(1))-3,"--")
-        %  xline(200e6,"--","Color",'green')
-        %  legend("X","f_{g}")
-        %  title("Wyniki w trakcie optymalizacji")
-        %  xlabel("Częstotliwość [Hz]")
-        %  ylabel("Wzmocnienie")
+
 
 fg=get_fg(Aac,freq);% cz. graniczna
 ku=Aac(1); %wzmocnienie @ 1kHz
 b=boost(freq,Aac); %podbicie (tylko poglądowo)
+
+
+%drukowanie wykresów (jeśli potrzebne odkomentować)
+figure(2)
+semilogx(freq,abs(Aac))
+ylim([-10 60])
+xline(fg,"--","Color",'blue')
+yline(abs(Aac(1))-3,"--")
+xline(200e6,"--","Color",'green')
+legend("X","f_{g}")
+title("Wyniki w trakcie optymalizacji")
+xlabel("Częstotliwość [Hz]")
+ylabel("Wzmocnienie")
 end
 

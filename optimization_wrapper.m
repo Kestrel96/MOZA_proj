@@ -38,14 +38,12 @@ x_opt=xs2x(xs_opt);% skalowanie punktu optymalnego do właściwej postaci.
             xLast = x;
         end
 
-
-
-
+        
 
         GBW=-log(ku_nested*fg_nested); %przeskalowany GBW
         %wyświetlenie wartości otrzymanych z symulacji
-        txt=sprintf("Boost: %0.3f; fg:%e; ku=%0.3f, log(GBW) %e ",b_nested,fg_nested,ku_nested,GBW);
-        disp(txt);
+        txt=sprintf("Boost: %0.3f; fg:%e; ku=%0.3f, log(GBW) %e\n",b_nested,fg_nested,ku_nested,GBW);
+        fprintf(txt);
 
     end
 
@@ -74,7 +72,7 @@ x_opt=xs2x(xs_opt);% skalowanie punktu optymalnego do właściwej postaci.
         c=c_nested;
         ceq=[];
         if (display)
-            disp(sprintf("Calculating constraints!\n kuc=%0.3f; fgc=%e; bc=%0.3f",c_nested(1),c_nested(2),c_nested(3)));
+            fprintf("Calculating constraints!\n kuc=%0.3f; fgc=%e; bc=%0.3f\n",c_nested(1),c_nested(2),c_nested(3));
             display=0;
         end
     end

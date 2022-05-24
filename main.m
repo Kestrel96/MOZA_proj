@@ -55,9 +55,16 @@ constr=@(xs) nonlcon(xs2x(xs)); %uchwy to f. ograniczeń
 % elapsed=toc;
 % x_opt=xs2x(xs_opt);% skalowanie punktu optymalnego do właściwej postaci.
 
- opts=optimoptions('ga','Display','iter','PlotFcn',{'gaplotbestf'} ); %zmodyfiokowano długość kroku
 
- x = ga(fun,7,[],[],[],[],lb,ub,constr,opts);
+% initial_population=[5 15 320 220 200 45 50;
+%                     2 10 320 120 200 45 50 ];
+%  opts=optimoptions('ga','Display','iter','PlotFcn',{'gaplotbestf','gaplotstopping'},'InitialPopulationMatrix',initial_population ); %zmodyfiokowano długość kroku
+% 
+%  x = ga(fun,7,[],[],[],[],lb,ub,[],opts);
+ opts=optimoptions('patternsearch','Display','iter','PlotFcn',{ 'psplotbestx', 'psplotmeshsize'},'MaxTime',3600,'InitialMeshSize',10); %zmodyfiokowano długość kroku
+lb=[0.01 0.1 0.1 0.1 0.1 0.1 0.1]; ub=[100 100 100 100 100 100 100];
+ x = patternsearch(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts);
+  %x = patternsearch(fun,x2xs(x0),[],[],[],[],lb,ub,[],opts);
 
 
 %% Wyniki w pkt. optymalnym

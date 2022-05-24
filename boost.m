@@ -1,4 +1,4 @@
-function bst = boost(Aac)
+function bst = boost(freq,Aac)
 %BOOST Obliczenie podbicia
 %   AAc - wektor odpowiedzi AC układu.
 %   Funckja obliczająca podbice.

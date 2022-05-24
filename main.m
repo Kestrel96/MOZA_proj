@@ -47,13 +47,18 @@ fclose(fileID);
 %% Optymalizacja
 fun=@(xs) obj_fun(xs2x(xs)); %uchwyt do f. celu
 constr=@(xs) nonlcon(xs2x(xs)); %uchwy to f. ograniczeń
-%,'FinDiffRelStep',1e-5
-opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},...
-    'OutputFcn',@output_fun,'FinDiffRelStep',1e-2); %zmodyfiokowano długość kroku
-tic;
-[xs_opt,fval_opt,exitflag,optim_out]=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts); %zwracany jest (przeskalowany) punkt optymalny, wartość funkcji, informacje wyjściowe.
-elapsed=toc;
-x_opt=xs2x(xs_opt);% skalowanie punktu optymalnego do właściwej postaci.
+% %,'FinDiffRelStep',1e-5
+% opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},...
+%     'OutputFcn',@output_fun,'FinDiffRelStep',1e-2); %zmodyfiokowano długość kroku
+% tic;
+% [xs_opt,fval_opt,exitflag,optim_out]=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts); %zwracany jest (przeskalowany) punkt optymalny, wartość funkcji, informacje wyjściowe.
+% elapsed=toc;
+% x_opt=xs2x(xs_opt);% skalowanie punktu optymalnego do właściwej postaci.
+
+ opts=optimoptions('ga','Display','iter','PlotFcn',{'gaplotbestf'} ); %zmodyfiokowano długość kroku
+
+ x = ga(fun,7,[],[],[],[],lb,ub,constr,opts);
+
 
 %% Wyniki w pkt. optymalnym
 out_ac=run_sim(x_opt,"kask4_ac");

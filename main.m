@@ -62,6 +62,17 @@ disp(fg_opt);
 tic
 [x_pareto,fval_multi,exitflag_multi,optim_out_multi] = multiobj_optimization_wrapper(x0);
 elapsed_multi=toc;
+%% Wyniki dla zbioru Pareto
+
+for i=1:length(x_pareto)
+    out_ac=run_sim(x_pareto(i,:),"kask4_ac");
+    freq_0=out_ac.freq_vect;
+    Aac=out_ac.variable_mat(6,:);
+    Aac=db(abs(Aac));
+    fg_pareto=get_fg(Aac,freq);
+    ku_pareto=Aac(1);
+
+end
 
 
 %% Zapisanie danych

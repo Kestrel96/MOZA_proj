@@ -23,11 +23,18 @@ lb=[0.01 0.1 0.1 0.1 0.1 0.1 0.1]; ub=[2 2 5 5 10 10 10];
 fun=@(xs) obj_fun(xs2x(xs)); %uchwyt do f. celu
 constr=@(xs) nonlcon(xs2x(xs)); %uchwy to f. ograniczeń
 %% Opcje optymalizacji
-%,'FinDiffRelStep',1e-5
-opts=optimoptions('paretosearch','Display','iter', 'ParetoSetSize',20,'MaxTime',1800,'PlotFcn',{'psplotparetof'}, ...
+
+pareto_size=20;
+opts=optimoptions('paretosearch','Display','iter', 'ParetoSetSize',pareto_size,'MaxTime',1800,'PlotFcn',{'psplotparetof'}, ...
     'InitialPoints',x2xs(x0)); %zmodyfiokowano długość kroku
 
-[x_pareto,fval,exitflag,optim_out] = paretosearch(fun,7,[],[],[],[],lb,ub,constr,opts);
+[xs_pareto,fval,exitflag,optim_out] = paretosearch(fun,7,[],[],[],[],lb,ub,constr,opts);
+
+for i=1:paretosize
+    x_pareto(i,:)=xs2x(xs_pareto(i,:));
+end
+
+
 
 
     function [p_out] = obj_fun(x)

@@ -49,6 +49,8 @@ end
 title("Granica Pareto i punkt optymalny GBW");
 plot(fg_opt,ku_opt,'+','MarkerSize',15,'Color','red','LineWidth',3);
 text(fg_opt,ku_opt+0.5,"Punkt optymalny GBW",'HorizontalAlignment','center');
+plot(fg_0,ku0,'x','MarkerSize',15,'Color','green','LineWidth',3);
+text(fg_0,ku0+0.5,"Punkt startowy",'HorizontalAlignment','center');
 xlabel("f [Hz]");
 ylabel("k_u [dB]");
 hold off

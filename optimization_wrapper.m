@@ -1,4 +1,4 @@
-function [x_opt,fval_opt,exitflag,optim_out] = optimization_wrapper(x0);
+function [x_opt,fval_opt,exitflag,optim_out] = optimization_wrapper(x0,fg_0,ku_0);
 %OPTIMIZATION_WRAPPER Funckja uruchamiająca i przeporwadzająca
 %optymalizację
 %   Funkcja wykorzystuje mechanizm funkcji zagnieżdżonych do przekazywania
@@ -19,7 +19,7 @@ x2xs=@ (xs) xs./x0; %do 1
 xs2x=@ (x) x.*x0; % do wartości rzeczywistych
 %% Ograniczenia górne i dolne
 lb=[0.01 0.1 0.1 0.1 0.1 0.1 0.1]; ub=[2 2 5 5 10 10 10];
-lb=[0.01 0.1 0.1 0.1 0.1 0.1 0.1]; ub=[2 2 5 5 10 10 10];
+%lb=[0.01 0.9 0.1 0.1 0.9 0.1 0.1]; ub=[2 5 5 5 10 10 10];
 %% Uchwyty do funkcji zagnieżdżonych
 fun=@(xs) obj_fun(xs2x(xs)); %uchwyt do f. celu
 constr=@(xs) nonlcon(xs2x(xs)); %uchwy to f. ograniczeń
@@ -42,14 +42,17 @@ x_opt=xs2x(xs_opt);% skalowanie punktu optymalnego do właściwej postaci.
             [fg_nested,ku_nested,b_nested]=get_working_params(x);
             xLast = x;
         end
-
         
-
-        GBW=-log(ku_nested*fg_nested); %przeskalowany GBW
+        
+        
+        GBW=-log10(ku_nested*fg_nested); %przeskalowany GBW
+        %GBW=-log(fg_nested)*ku_nested; %przeskalowany GBW
+        %GBW=-((fg_nested/fg_0)*(ku_nested/ku_0));
+        
         %wyświetlenie wartości otrzymanych z symulacji
-        txt=sprintf("Boost: %0.3f; fg:%e; ku=%0.3f, log(GBW) %e\n",b_nested,fg_nested,ku_nested,GBW);
+        txt=sprintf("Boost: %0.3f; fg=%e log10(fg):%0.3f; ku=%0.3f, log(GBW) %e\n",b_nested,fg_nested,log10(fg_nested),ku_nested,GBW);
         fprintf(txt);
-
+        
     end
 
 
@@ -60,7 +63,7 @@ x_opt=xs2x(xs_opt);% skalowanie punktu optymalnego do właściwej postaci.
         %   optymalizowanych
         display=0;
         if ~isequal(x,xLast)
-
+            
             [fg_nested,ku_nested,b_nested]=get_working_params(x);
             xLast = x;
             display=1;
@@ -69,7 +72,7 @@ x_opt=xs2x(xs_opt);% skalowanie punktu optymalnego do właściwej postaci.
         fgmin=200e6;
         kumin=20;
         bmax=1;
-
+        
         %wektor ograniczeń (c=<0)
         c_nested(1)=-(fg_nested/fgmin-1);
         c_nested(2)=-(ku_nested/kumin-1);

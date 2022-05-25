@@ -31,6 +31,9 @@ opts=optimoptions('paretosearch','Display','iter', 'ParetoSetSize',pareto_size,'
 
 [xs_pareto,fval,exitflag,optim_out] = paretosearch(fun,7,[],[],[],[],lb,ub,constr,opts);
 
+if(pareto_size < length(xs_pareto))% W razie wczesnego zakończenia poszukiwania.
+    pareto_size= length(xs_pareto);
+end
 for i=1:pareto_size
     x_pareto(i,:)=xs2x(xs_pareto(i,:));
 end
@@ -48,16 +51,16 @@ end
             [fg_nested,ku_nested,b_nested]=get_working_params(x);
             xLast = x;
         end
-
         
-
+        
+        
         ku=-ku_nested;
-        fg=-log(fg_nested);
+        fg=-log10(fg_nested);
         p_out=[ku;fg];
         %wyświetlenie wartości otrzymanych z symulacji
         txt=sprintf("Boost: %0.3f; fg:%e; ku=%0.3f\n",b_nested,fg_nested,ku_nested);
         fprintf(txt);
-
+        
     end
 
 
@@ -68,7 +71,7 @@ end
         %   optymalizowanych
         display=0;
         if ~isequal(x,xLast)
-
+            
             [fg_nested,ku_nested,b_nested]=get_working_params(x);
             xLast = x;
             display=1;
@@ -77,7 +80,7 @@ end
         fgmin=200e6;
         kumin=20;
         bmax=1;
-
+        
         %wektor ograniczeń (c=<0)
         c_nested(1)=-(fg_nested/fgmin-1);
         c_nested(2)=-(ku_nested/kumin-1);

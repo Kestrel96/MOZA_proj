@@ -18,6 +18,7 @@ if((idx_max+points_number < length(freq) && idx_max-points_number>= 1))
     ku_approx=polyval(p,(x1-mu(1))/mu(2));
     [ku_max, max_approx_idx]=max(ku_approx);
     max_f=x1(max_approx_idx);
+    bst=ku_max-ku0;
     %      figure
     %      semilogx(freq,Aac,'.','LineWidth',2,'MarkerSize',20);
     %      hold on
@@ -31,11 +32,12 @@ if((idx_max+points_number < length(freq) && idx_max-points_number>= 1))
     %      legend("Spice","Aproksymacja","k_{umax}")
     %      hold off
 
-
+    return
 end
 
 max_f=0;
 bst=ku_max-ku0;
+return
 
 end
 

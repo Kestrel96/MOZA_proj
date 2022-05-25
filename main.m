@@ -1,8 +1,8 @@
-clear
+%clear
 close all;
 %% Wybór punktu startowego (ku0 oraz fg0 odnoszą się do pkt startowego w całym skrypcie)
 x0=[5 15 320 220 200 45 50];
-x0=[1 10 320 220 200 45 50];
+%x0=[1 10 320 220 200 45 50];
 results_path="results";
 plots_path="plots";
 %% Punkt startowy
@@ -42,7 +42,7 @@ fclose(fileID);
 
 %% Optymalizacja
 tic;
-[x_opt,fval_opt,exitflag,optim_out]=optimization_wrapper(x0);
+[x_opt,fval_opt,exitflag,optim_out]=optimization_wrapper(x0,fg_0,ku0);
 elapsed=toc;
 
 %% Wyniki w pkt. optymalnym
@@ -67,11 +67,11 @@ elapsed_multi=toc;
 
 for i=1:length(x_pareto)
     out_ac=run_sim(x_pareto(i,:),"kask4_ac");
-    freq_0=out_ac.freq_vect;
+    freq=out_ac.freq_vect;
     Aac=out_ac.variable_mat(6,:);
     Aac=db(abs(Aac));
-    fg_pareto=get_fg(Aac,freq);
-    ku_pareto=Aac(1);
+    fg_pareto(i)=get_fg(Aac,freq);
+    ku_pareto(i)=Aac(1);
 
 end
 

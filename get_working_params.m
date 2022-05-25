@@ -1,6 +1,7 @@
 function [fg,ku,b] = get_working_params(x)
-%GET_WORKING_PARAMS Summary of this function goes here
-%   Detailed explanation goes here
+%GET_WORKING_PARAMS Funckja obliczająca parametry robocze układu.
+
+
 % Symulacja i pobranie wyników.
 out_ac=run_sim(x,"kask4_ac");
 freq=out_ac.freq_vect;

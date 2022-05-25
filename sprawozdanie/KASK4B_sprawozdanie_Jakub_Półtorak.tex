@@ -113,7 +113,7 @@ Wyniki w punkcie początkowym można zobaczyć na poniższym wykresie:
 	\caption{Charakterystyka układu w punkcie startowym.}
 \end{figure}
 
-Jak widać spełnione są warunki postawione w zadaniu (minimalna wartość wzmocnienia to 20 dB, przy źródle AC mającym 1 V amplitudy) oraz wzmacniacz pracuje prawidłowo (symulacja czasowa wykonan w LTSpice potwierdziła prawidłową pracę układu).
+Jak widać spełnione są warunki postawione w zadaniu (minimalna wartość wzmocnienia to 20 dB, przy źródle AC mającym 1 V amplitudy) oraz wzmacniacz pracuje prawidłowo (symulacja czasowa wykonana w LTSpice potwierdziła prawidłową pracę układu).
 \pagebreak
 
 Aby potwierdzić, że Matlab i Spice zwracają te same wyniki przeprowadzono symulację w LTSpice:
@@ -188,6 +188,7 @@ obliczonych wartości. Funkcja ta wykorzystuje zagnieżdżone funkcje celu i ogr
 	\item modify\_params.m - Funkcja modyfikująca parametry w pliku params.inc
 	\item output\_fun.m - Funkcja wyjściowa dla optymalizatora.
 	\item run\_sim.m - Funkcja uruchamiająca symulator LTSpice.
+ 	\item get\_working\_params.m - Funkcja obliczająca podbicie, częstotliwośś graniczną i wzmocnienie. 
 	\item LTspice2Matlab.m - Funkcja do odczytu danych z LTSpice.
 \end{itemize}
 
@@ -202,7 +203,7 @@ Stwierdzono np. że zmniejszanie wartości REE1 powoduje wzrost wzmocnienia przy
 Ponieważ nie znaleziono jednoznacznej zależności (działanie na kształt algorytmu Gaussa-Seidla) postanowiono nie ograniczać liczby optymalizowanych zmiennych, a jedynie zadbać o odpowiednie
 ograniczenia kostkowe parametrów.
 \subsection*{Solver i algorytm dla optymalizacji wielokryterialnej}
-W praktyce ciężko określić co jest ""dobrym"" rozwiązaniem zadania wielokryterialnego. Przeważnie mamy do czynienia z optymalizowaniem parametrów gdzie poprawa jednego powoduj epogorszenie pozostałych.
+W praktyce ciężko określić co jest ""dobrym"" rozwiązaniem zadania wielokryterialnego. Przeważnie mamy do czynienia z optymalizowaniem parametrów gdzie poprawa jednego powoduje pogorszenie pozostałych.
 Aby znaleźć rozwiązanie zadanego problemu zdecydowano się użyć solvera paretosearch (wykorzystującego algorytm patternsearch) do wyznaczenia zbioru Pareto, który powinien dać wybór w kwestii czy bardziej interesuje użytkownika
 wzmocnienie czy pasmo. 
 

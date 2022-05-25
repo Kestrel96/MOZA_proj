@@ -1,6 +1,6 @@
-function [x_opt,fval_opt,exitflag,optim_out] = optimization_wrapper(x0);
+function [x_pareto,fval,exitflag,optim_out] = multiobj_optimization_wrapper(x0)
 %OPTIMIZATION_WRAPPER Funckja uruchamiająca i przeporwadzająca
-%optymalizację
+%optymalizację wielokryterialną.
 %   Funkcja wykorzystuje mechanizm funkcji zagnieżdżonych do przekazywania
 %  zmiennych między funkcjami celu i ograniczeń, co pozwala na jedną
 %  symulację dla obliczenia f celu i ograniczeń.
@@ -24,14 +24,13 @@ fun=@(xs) obj_fun(xs2x(xs)); %uchwyt do f. celu
 constr=@(xs) nonlcon(xs2x(xs)); %uchwy to f. ograniczeń
 %% Opcje optymalizacji
 %,'FinDiffRelStep',1e-5
-opts=optimoptions('fmincon','Display','iter-detailed','PlotFcn',{'optimplotfvalconstr','optimplotx'},...
-    'OutputFcn',@output_fun,'FinDiffRelStep',1e-2); %zmodyfiokowano długość kroku
+opts=optimoptions('paretosearch','Display','iter', 'ParetoSetSize',20,'MaxTime',1800,'PlotFcn',{'psplotmaxconstr','psplotparetof'}, ...
+    'InitialPoints',x2xs(x0)); %zmodyfiokowano długość kroku
 
-[xs_opt,fval_opt,exitflag,optim_out]=fmincon(fun,x2xs(x0),[],[],[],[],lb,ub,constr,opts); %zwracany jest (przeskalowany) punkt optymalny, wartość funkcji, informacje wyjściowe.
-x_opt=xs2x(xs_opt);% skalowanie punktu optymalnego do właściwej postaci.
+[x_pareto,fval,exitflag,optim_out] = paretosearch(fun,7,[],[],[],[],lb,ub,constr,opts);
 
 
-    function [GBW] = obj_fun(x)
+    function [p_out] = obj_fun(x)
         %OBJ_FUN Funkcja celu.
         %   Funckja obliczająca przeskalowaną wartość BGW (log(GBW)). Każde
         %   wywołanie wymaga uruchomienia symulatora.
@@ -44,9 +43,11 @@ x_opt=xs2x(xs_opt);% skalowanie punktu optymalnego do właściwej postaci.
 
         
 
-        GBW=-log(ku_nested*fg_nested); %przeskalowany GBW
+        ku=-ku_nested;
+        fg=-log(fg_nested);
+        p_out=[ku;fg];
         %wyświetlenie wartości otrzymanych z symulacji
-        txt=sprintf("Boost: %0.3f; fg:%e; ku=%0.3f, log(GBW) %e\n",b_nested,fg_nested,ku_nested,GBW);
+        txt=sprintf("Boost: %0.3f; fg:%e; ku=%0.3f\n",b_nested,fg_nested,ku_nested);
         fprintf(txt);
 
     end

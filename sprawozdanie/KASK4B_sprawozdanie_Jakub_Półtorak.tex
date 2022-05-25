@@ -57,11 +57,41 @@ przez symulator LTSpice.
 Dodatkowo, w zadaniu pojawiają się ograniczenia nieliniowe związane z wymaganiami projektowymi:\\
 \begin{itemize}
 	\item \(g_1(\textbf{x}): -(\frac{k_{u0}(\textbf{x})}{k_{u_{min}}}-1) <  0\) \\ Warunek minimalnego wzmocnienia, $k_{umin}=20dB$
-	\item \(g_2(\textbf{x}): -(\frac{{f_g}(\textbf{x})}{f_{g_{min}}}-1)<0\) \\ Warunek minimalnej częstotliwości granicznej, $f_{gmin}=200 MHz$
-	\item \(g_3(\textbf{x}): b(\textbf{x})-b_{max}<0\) \\ Ograniczenie podbicia charakterystyki, $b_{max}=1dB$. Podbicie $b$ rozumiane jest jako różnica między maksymalnym poziomem wzmocnienia a $k_{u0}$.Podbicie jest obliczane w Matlabie.
+	\item \(g_2(\textbf{x}): -(\frac{{f_g}(\textbf{x})}{f_{g_{min}}}-1)<0\) \\ Warunek minimalnej częstotliwości granicznej, $f_{gmin}=200 MHz$. Częstotliwość graniczna $f_g$ obliczana jest jako częstotliwość,
+dla której wzmocnienie spada o 3 dB względem $ku_0$.
+	\item \(g_3(\textbf{x}): b(\textbf{x})-b_{max}<0\) \\ Ograniczenie podbicia charakterystyki, $b_{max}=1dB$. Podbicie $b(\textbf{x})$ rozumiane jest jako różnica między maksymalnym poziomem wzmocnienia a $k_{u0}$ ((czyli $max(k_{u}(\textbf{x}))-b_{max}$)).Podbicie jest obliczane w Matlabie.
 
 \end{itemize}
 \subsection{Optymalizacja wielokryterialna}
+Poszukiwane jest minimum funkcji celu:
+\[ \min\limits_{\textbf{x}\in \mathbf{R}^+  } [f_1(\textbf{x}), f_2(\textbf{x})] \]
+p.o.
+\[ g_{i}(\textbf{x}) \leq 0 \ \ \ \  i=1..n_g\]
+gdzie:
+\[ f_1(\textbf{x}) = -k_{u0}\] \[ f_2(\textbf{x}) = -f_g\]
+\(\textbf{x}\) - wektor zmiennych optymalizowanych: \\
+\begin{center}
+	$\textbf{x}$ =
+	$\begin{bmatrix}
+			REE1 & REE2 & RE & RC2 & RC3 & CEE & CG
+		\end{bmatrix}$,
+\end{center}
+\(k_{u0}(\textbf{x})\) - wzmocnienie dla małych częstotliwości, rozumiane jako wzmocnienie dla częstotliwości 1 kHz.\\
+\(f_{g}(\textbf{x})\) - częstotliwość graniczna, rozumiana jako częstotliwość, dla której wzmocnienie
+spada o 3 dB względem $k_{u_{0}}(\textbf{x}) $.
+
+Parametry $k_{u0}(\textbf{x})$ oraz $f_g(\textbf{x})$ obliczane są w Matlabie na podstawie surowych danych ($U^{AC}_{out}(x,f)$) zwracanych
+przez symulator LTSpice.
+
+Dodatkowo, w zadaniu pojawiają się ograniczenia nieliniowe związane z wymaganiami projektowymi (identyczne jak dla optymalizacji jednokryterialnej):\\
+\begin{itemize}
+	\item \(g_1(\textbf{x}): -(\frac{k_{u0}(\textbf{x})}{k_{u_{min}}}-1) <  0\) \\ Warunek minimalnego wzmocnienia, $k_{umin}=20dB$
+	\item \(g_2(\textbf{x}): -(\frac{{f_g}(\textbf{x})}{f_{g_{min}}}-1)<0\) \\ Warunek minimalnej częstotliwości granicznej, $f_{gmin}=200 MHz$. Częstotliwość graniczna $f_g$ obliczana jest jako częstotliwość,
+dla której wzmocnienie spada o 3 dB względem $ku_0$.
+	\item \(g_3(\textbf{x}): b(\textbf{x})-b_{max}<0\) \\ Ograniczenie podbicia charakterystyki, $b_{max}=1dB$. Podbicie $b(\textbf{x})$ rozumiane jest jako różnica między maksymalnym poziomem wzmocnienia a $k_{u0}$ ((czyli $max(k_{u}(\textbf{x}))-b_{max}$)).Podbicie jest obliczane w Matlabie.
+
+\end{itemize}
+
 
 
 
@@ -101,7 +131,15 @@ Aby potwierdzić, że Matlab i Spice zwracają te same wyniki przeprowadzono sym
 W zadaniu badane są trzy parametry: częstotliwość graniczna, wzmocnienie oraz podbicie charakterystyki.
 
 \subsubsection*{Podbicie $b$}
-Podbicie rozumiane jest jako różnica między wzmocnieniem $k_{u0}$ a maksymalnym wzmocnieniem jakie osiąga charakterystyka.
+Podbicie rozumiane jest jako różnica między wzmocnieniem $k_{u0}$ a maksymalnym wzmocnieniem jakie osiąga charakterystyka ($max(k_{u}(\textbf{x}))-b_{max}$).
+Maksimum charakterystyki jest wyznaczane przez interpolację (wielomian drugiego stopnia). Pozwala to dokładniej ustalić maksynmalne wzmocnienie i wygładza funkcję celu.
+Efekty interpolacji widać na poniższym wykresie:
+\begin{figure}[h]
+	\includegraphics[width=8cm]{graphics/max_ku_interp.png}
+	\centering
+	\caption{Interpolacja maksimum charakterystyki.}
+\end{figure}
+\pagebreak
 \subsubsection*{Wzmocnienie małoczęstotliwościowe $k_{u0}$}
 Wzmocnienie $k_u$ rozumiane jest jako wartość wzmocnienia pozyskana z danych $U^{AC}_{out}(x,f)$ dla częstotliwości 1 KHz.
 
@@ -122,7 +160,9 @@ Przyjęto, że funkcja celu, w obrębie odpowiednich wartości elementów układ
 nie powodują nieprawidłowej pracy układu zawsze możliwe będzie otrzymanie charakterystyki, która, nawet jeśli nie spełnia wymagań projektowych, daje ''sensowne'' wartości paremetrów roboczych (bez dużych skoków
 np. wzrost wzmocnienia do 10000 dB).
 
-Funckje ograniczeń i celu mogą być w niektórych przypadkach niegładkie. Solver fmincon nie spełnia ograniczeń dla każdej iteracji, przez co teoretycznie może zdarzyć się np. płaska charakterystyka, 
+Funckje ograniczeń i celu mogą być w niektórych przypadkach niegładkie. Może dojść do takiej sytuacji, gdy aktualny zestaw wartości elementów spowoduje powstanie charakterystyki,
+dla której niektóre z parametrów roboczych nie są możliwe do obliczenia lub nie mają fizycznego sensu (np. płaska charakterystyka na poziomie 0 dB spowoduje, że nie istnieje częstotliwość graniczna rozumiana wg. zasad zdefiniowanych
+na początku raportu, funkcja obliczająca zwraca wtedy 0). Punkty przejścia między ""dobrą"" a ""złą"" charakterystyką są właściwie punktami, gdzie funkcja nie jest gładka. Solver fmincon nie spełnia ograniczeń dla każdej iteracji, przez co teoretycznie może zdarzyć się np. płaska charakterystyka, 
 dla której funkcje nie są gładkie. Przeporwadzone próby wykazały jednak, że problem ten zachodzi bardzo rzadko i ma niewielki wpływ na optymalizację.
 \subsection{Opis kodu}
 Dołączony katalog z kodem podzielony został na odpowiednie katalogi dla wyników (results, gdzie zapisany jest workspace z Matlaba i plots, wykresy) i plików dla symulacji(spice).
@@ -137,12 +177,12 @@ Aby nie czekać aż optymalizator zakończy pracę (ok. 5 minut) można wczytać
 	\item main.m - główny skrypt realizujący zadanie optymalizacji.
 	\item display\_results.m - Skrypt wyświetlający wyniki optymalizacji. Uruchamiany automatycznie po main.m
 	\item starting\_point.m - Skrypt obliczający wyniki w pkt. startowym. Do weryfikacji działania funkcji.
+	\item optmization\_wrapper.m - funckja będąca ""nakładką"" na optymalizator pozwalającą na współdzielenie
+obliczonych wartości. Funkcja ta wykorzystuja zagnieżdżone funkcje celu i ograniczeń (oraz skalowania). Wszytskie ustawienia (dolne i górne ograniczenia, opcje itp.) znajdują się w tym pliku.
 	\item get\_fg.m - Funckja obliczająca częstotliwość graniczną.
 	\item boost.m - Funckja obliczająca podbicie charakterystyki.
 	\item extract\_results.m - Funkcja odczytująca dane z pliku output\_results powstającego przez funckję output\_fun.
 	\item modify\_params.m - Funkcja modyfikująca parametry w pliku params.inc
-	\item nonlcon.m - Funkcja nieliniowych ograniczeń nierównościowych.
-	\item obj\_fun.m - Implementacja funkcji celu.
 	\item output\_fun.m - Funkcja wyjściowa dla optymalizatora.
 	\item run\_sim.m - Funkcja uruchamiająca symulator LTSpice.
 	\item LTspice2Matlab.m - Funkcja do odczytu danych z LTSpice.
@@ -152,7 +192,8 @@ Aby nie czekać aż optymalizator zakończy pracę (ok. 5 minut) można wczytać
 \subsection{Algorytm, skalowanie}
 \subsection*{Solver i algorytm optymalizacji}
 Jako solver wykorzystano fmincon z domyślnym algorytmem (Interior Point). Zdecydowano się na wykorzystanie
-metod gradientowych, ponieważ założono gładkość funkcji dla danych ograniczeń.
+metod gradientowych, ponieważ założono gładkość funkcji dla danych ograniczeń. Po przeprowadzonyh próbach optymalizacji uznano, że założenie jest słuszne (brak wartości
+NaN i Inf podczas pracy solvera, widoczna poprawa parametrów układu, wyraźna zbieżność).
 
 Po próbach przeprowadzonych w LTSpice ustalono, że niektóre elementy mają większy wpływ na układ niż inne, jednak, przy różnych kombinacjach wartości, wpływ rożnych elementów jest trudny do przewidzenia.
 Stwierdzono np. że zmniejszanie wartości REE1 powoduje wzrost wzmocnienia przy spadku pasma, manipulowanie pojemnością CEE wpływa na pasmo, CG na podbicia itp.
@@ -167,47 +208,49 @@ skalowanie wektora względem wektora startowego.
 
 W przypadku funkcji celu iloczyn wzmocnienia i częstotliwości granicznej sięga rzędu $10^9$.
 Aby usprawnić pracę optymalizatora wyjście z zaimplementowanej funkcji celu jest postaci $-log(GBW)$.
-\pagebreak
-\subsection{Przebieg optymalizacji, otrzymane wyniki}
-Zmieniane są wszytskie wartości parametrów dostępne w zadaniu. Ograniczenia dobrano na podstawie metody prób i błędów i zapisano w postaci wektorów lb i ub w pliku main.m.
-Dolne ograniczenie zapewnia, że wszystkie elementy mają dodatnie wartości.
-
-Przebieg optymalizacji zobaczyć można poniżej:
-
-\begin{table}[h]
-	\centering
-	\begin{tabular}{lllll}
-		         & $k_u$ {[}dB{]} & $f_g$ {[}MHz{]} & GBW {[}$dB \cdot MHz${]} & b {[}dB{]} \\
-		P. start & 27,33          & 4,345           & 1,187                    & 0,198      \\
-		P. opt.  & 26,13          & 6,838           & 1,781                    & 0,371
-	\end{tabular}
-\end{table}
 
 
-\begin{figure}[h]
-	\includegraphics[width=12cm]{graphics/comparison.png}
-	\centering
-	\caption{Porównanie punktu optymalnego i startowego.}
-\end{figure}
+% \pagebreak
+% \subsection{Przebieg optymalizacji, otrzymane wyniki}
+% Zmieniane są wszytskie wartości parametrów dostępne w zadaniu. Ograniczenia dobrano na podstawie metody prób i błędów i zapisano w postaci wektorów lb i ub w pliku main.m.
+% Dolne ograniczenie zapewnia, że wszystkie elementy mają dodatnie wartości.
 
-\begin{figure}[h]
-	\includegraphics[width=12cm]{graphics/fval.png}
-	\centering
-	\caption{Przebieg wartości funkcji celu.}
-\end{figure}
+% Przebieg optymalizacji zobaczyć można poniżej:
 
-\begin{figure}[h]
-	\includegraphics[width=10cm]{graphics/exit_msg.png}
-	\centering
-	\caption{Informacja o zakończeniu pracy przez optymalizator.}
-\end{figure}
+% \begin{table}[h]
+% 	\centering
+% 	\begin{tabular}{lllll}
+% 		         & $k_u$ {[}dB{]} & $f_g$ {[}MHz{]} & GBW {[}$dB \cdot MHz${]} & b {[}dB{]} \\
+% 		P. start & 27,33          & 4,345           & 1,187                    & 0,198      \\
+% 		P. opt.  & 26,13          & 6,838           & 1,781                    & 0,371
+% 	\end{tabular}
+% \end{table}
 
 
-\begin{figure}[h]
-	\includegraphics[width=10cm,height=4cm]{graphics/optim_tran.png}
-	\centering
-	\caption{Symulacja czasowa w pkt. optymalnym. Wzmacniacz wzmacnia.}
-\end{figure}
+% \begin{figure}[h]
+% 	\includegraphics[width=12cm]{graphics/comparison.png}
+% 	\centering
+% 	\caption{Porównanie punktu optymalnego i startowego.}
+% \end{figure}
+
+% \begin{figure}[h]
+% 	\includegraphics[width=12cm]{graphics/fval.png}
+% 	\centering
+% 	\caption{Przebieg wartości funkcji celu.}
+% \end{figure}
+
+% \begin{figure}[h]
+% 	\includegraphics[width=10cm]{graphics/exit_msg.png}
+% 	\centering
+% 	\caption{Informacja o zakończeniu pracy przez optymalizator.}
+% \end{figure}
+
+
+% \begin{figure}[h]
+% 	\includegraphics[width=10cm,height=4cm]{graphics/optim_tran.png}
+% 	\centering
+% 	\caption{Symulacja czasowa w pkt. optymalnym. Wzmacniacz wzmacnia.}
+% \end{figure}
 
 
 \pagebreak
@@ -261,6 +304,17 @@ Przebieg optymalizacji zobaczyć można poniżej:
 		\includegraphics[width=25cm,height=15 cm]{graphics/comparison.png}
 		\centering
 		\caption{Porównanie wyników w punkcie optymalnym i startowym.}
+	\end{figure}
+\end{landscape}
+
+
+\pagebreak
+\begin{landscape}
+	\begin{figure}[h]
+		\vspace*{-2cm}
+		\includegraphics[width=20cm,height=10 cm]{graphics/max_ku_interp.png}
+		\centering
+		\caption{Interpolacja maksymalnego wzmocnienia.}
 	\end{figure}
 \end{landscape}
 

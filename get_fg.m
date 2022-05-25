@@ -6,8 +6,8 @@ function fg = get_fg(Aac,freq)
 
 %zabezpieczenie przed nieprawidłową charakterystyką
 ku0=abs(Aac(1));
-if(ku0<1)
-    fg=1;
+if(ku0<3)
+    fg=0;
     return
 end
 ku=ku0-3; %wzmocnienie na poziomie -3dB

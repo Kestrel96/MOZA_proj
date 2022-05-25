@@ -56,6 +56,12 @@ disp(ku_opt);
 disp(fg_opt);
 [output_fcn_results,header]=extract_results();
 
+
+%% Optymalizacja wielokryterialna
+[x_pareto,fval_multi,exitflag_multi,optim_out_multi] = multiobj_optimization_wrapper(x0);
+
+
+
 %% Zapisanie danych
 save_path=results_path+"/latest.mat";
 save(save_path);

@@ -76,7 +76,7 @@ x_opt=xs2x(xs_opt);% skalowanie punktu optymalnego do właściwej postaci.
         c=c_nested;
         ceq=[];
         if (display)
-            fprintf("Calculating constraints!\n kuc=%0.3f; fgc=%e; bc=%0.3f\n",c_nested(1),c_nested(2),c_nested(3));
+            fprintf("Calculating constraints!\n  fgc=%e; kuc=%0.3f; bc=%0.3f\n",c_nested(1),c_nested(2),c_nested(3));
             display=0;
         end
     end

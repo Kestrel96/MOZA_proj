@@ -32,8 +32,8 @@ optim_out.message %wydrukowanie informacji zatrzymania
 fval_figure=figure('Name','Przebieg optymalziacji','NumberTitle','off','Position', [0 0 1600 900]);
 semilogy(output_fcn_results(:,11),'o','MarkerSize',3,'Color','red','LineWidth',2);
 title("Wartości funkcji celu w trakice optymalizacji")
-xlabel("Wartość f(x)");
-ylabel("Iteracja")
+ylabel("Wartość f(x)");
+xlabel("Iteracja")
 fval_path=plots_path+"/fval.png";
 saveas(fval_figure,fval_path);
 

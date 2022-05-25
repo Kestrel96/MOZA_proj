@@ -164,6 +164,8 @@ Funckje ograniczeń i celu mogą być w niektórych przypadkach niegładkie. Mo�
 dla której niektóre z parametrów roboczych nie są możliwe do obliczenia lub nie mają fizycznego sensu (np. płaska charakterystyka na poziomie 0 dB spowoduje, że nie istnieje częstotliwość graniczna rozumiana wg. zasad zdefiniowanych
 na początku raportu, funkcja obliczająca zwraca wtedy 0). Punkty przejścia między ""dobrą"" a ""złą"" charakterystyką są właściwie punktami, gdzie funkcja nie jest gładka. Solver fmincon nie spełnia ograniczeń dla każdej iteracji, przez co teoretycznie może zdarzyć się np. płaska charakterystyka, 
 dla której funkcje nie są gładkie. Przeporwadzone próby wykazały jednak, że problem ten zachodzi bardzo rzadko i ma niewielki wpływ na optymalizację.
+
+W przypadku optymalizacji wielokryterialnej zdecydowano się wykorzystać solver paretosearch (wykorzystujacy wewnętrzenie algorytm patternsearch), nigładkgość funkcji celu i ograniczeń nie ma tutaj więc za dużego znaczenia (metoda bezgradientowa).
 \subsection{Opis kodu}
 Dołączony katalog z kodem podzielony został na odpowiednie katalogi dla wyników (results, gdzie zapisany jest workspace z Matlaba i plots, wykresy) i plików dla symulacji(spice).
 W katalogu głównym znajdują się skrypty i m-funckje. W celu weryfikacji poprawności działania kodu można uruchomić skrypt starting\_point.m, który przedstawia wyniki w pkt. początkowym.
@@ -179,6 +181,7 @@ Aby nie czekać aż optymalizator zakończy pracę (ok. 5 minut) można wczytać
 	\item starting\_point.m - Skrypt obliczający wyniki w pkt. startowym. Do weryfikacji działania funkcji.
 	\item optmization\_wrapper.m - funckja będąca ""nakładką"" na optymalizator pozwalającą na współdzielenie
 obliczonych wartości. Funkcja ta wykorzystuja zagnieżdżone funkcje celu i ograniczeń (oraz skalowania). Wszytskie ustawienia (dolne i górne ograniczenia, opcje itp.) znajdują się w tym pliku.
+	\item multiobj\_optimization\_wrapper.m - Funkcja będąca ""nakładką"" na optymalizator wielokryterialny. Podobnie jak w wersji jednokryterialnej steruje całym procesem optymalizacji.
 	\item get\_fg.m - Funckja obliczająca częstotliwość graniczną.
 	\item boost.m - Funckja obliczająca podbicie charakterystyki.
 	\item extract\_results.m - Funkcja odczytująca dane z pliku output\_results powstającego przez funckję output\_fun.
@@ -190,7 +193,7 @@ obliczonych wartości. Funkcja ta wykorzystuja zagnieżdżone funkcje celu i ogr
 
 \section{Propozycja rozwiązania numerycznego}
 \subsection{Algorytm, skalowanie}
-\subsection*{Solver i algorytm optymalizacji}
+\subsection*{Solver i algorytm optymalizacji jednokryterialnej}
 Jako solver wykorzystano fmincon z domyślnym algorytmem (Interior Point). Zdecydowano się na wykorzystanie
 metod gradientowych, ponieważ założono gładkość funkcji dla danych ograniczeń. Po przeprowadzonyh próbach optymalizacji uznano, że założenie jest słuszne (brak wartości
 NaN i Inf podczas pracy solvera, widoczna poprawa parametrów układu, wyraźna zbieżność).
@@ -199,6 +202,12 @@ Po próbach przeprowadzonych w LTSpice ustalono, że niektóre elementy mają wi
 Stwierdzono np. że zmniejszanie wartości REE1 powoduje wzrost wzmocnienia przy spadku pasma, manipulowanie pojemnością CEE wpływa na pasmo, CG na podbicia itp.
 Ponieważ nie znaleziono jednoznacznej zależności (działanie na kształt algorytmu Gaussa-Seidla) postanowiono nie ograniczać liczby optymalizowanych zmiennych, a jedynie zadbać o odpowiednie
 ograniczenia kostkowe parametrów.
+\subsection*{Solver i algorytm dla optymalizacji wielokryterialnej}
+W praktyce ciężko określić co jest ""dobrym"" rozwiązaniem zadania wielokryterialnego. Przeważnie mamy do czynienia z optymalizowaniem parametrów gdzie poprawa jednego powoduj epogorszenie pozostałych.
+Aby znaleźć rozwiążanie zadanego problemu zdecydowano się użyć solvera paretosearch (wykorzystującego algorytm patternsearch) do wyznaczenia zbioru Pareto, ktróy powienien dać wybór w kwesti czy bardziej interesuje użytkownika
+wzmocnienie czy pasmo. 
+
+Ponieważ patternsearch jest alogrytmem bezgradientowym ewentulany brak gładkości f. celu i ograniczeń nie ma tutaj dużego znaczenia.
 \subsection*{Skalowanie}
 Zarówno wektor wartości elementów jak i funkcja celu zostały przeskalowane.
 
@@ -208,6 +217,8 @@ skalowanie wektora względem wektora startowego.
 
 W przypadku funkcji celu iloczyn wzmocnienia i częstotliwości granicznej sięga rzędu $10^9$.
 Aby usprawnić pracę optymalizatora wyjście z zaimplementowanej funkcji celu jest postaci $-log(GBW)$.
+
+W przypadku optymalizacji wielokryterialnej częstoliwość graniczna zwracana jest w postaci $-log(f_g)$.
 
 
 % \pagebreak

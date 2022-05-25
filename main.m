@@ -39,6 +39,7 @@ header=["iter" "x1" "x2" "x3" "x4" "x5" "x6" "x7" "feasible" "fcnt" "fval"];
 fprintf(fileID,"%s %s %s %s %s %s %s %s %s %s %s\n",header);
 fclose(fileID);
 
+%% Optymalizacja
 tic;
 [x_opt,fval_opt,exitflag,optim_out]=optimization_wrapper(x0);
 elapsed=toc;
@@ -58,8 +59,9 @@ disp(fg_opt);
 
 
 %% Optymalizacja wielokryterialna
+tic
 [x_pareto,fval_multi,exitflag_multi,optim_out_multi] = multiobj_optimization_wrapper(x0);
-
+elapsed_multi=toc;
 
 
 %% Zapisanie danych

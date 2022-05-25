@@ -1,4 +1,4 @@
-function [x_opt,fval_opt,exitflag,optim_out] = optimization_wrapper(x0,fg_0,ku_0);
+function [x_opt,fval_opt,exitflag,optim_out] = optimization_wrapper(x0,fg_0,ku_0)
 %OPTIMIZATION_WRAPPER Funckja uruchamiająca i przeporwadzająca
 %optymalizację
 %   Funkcja wykorzystuje mechanizm funkcji zagnieżdżonych do przekazywania
@@ -46,11 +46,10 @@ x_opt=xs2x(xs_opt);% skalowanie punktu optymalnego do właściwej postaci.
         
         
         GBW=-log10(ku_nested*fg_nested); %przeskalowany GBW
-        %GBW=-log(fg_nested)*ku_nested; %przeskalowany GBW
-        %GBW=-((fg_nested/fg_0)*(ku_nested/ku_0));
+        
         
         %wyświetlenie wartości otrzymanych z symulacji
-        txt=sprintf("Boost: %0.3f; fg=%e log10(fg):%0.3f; ku=%0.3f, log(GBW) %e\n",b_nested,fg_nested,log10(fg_nested),ku_nested,GBW);
+        txt=sprintf("Boost: %0.3f; fg=%e log10(fg):%0.3f; ku=%0.3f, log10(GBW) %e\n",b_nested,fg_nested,log10(fg_nested),ku_nested,GBW);
         fprintf(txt);
         
     end

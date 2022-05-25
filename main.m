@@ -1,5 +1,6 @@
 clear
 close all;
+dbstop if error
 %% Wybór punktu startowego (ku0 oraz fg0 odnoszą się do pkt startowego w całym skrypcie)
 x0=[5 15 320 220 200 45 50];
 results_path="results";
@@ -59,7 +60,7 @@ disp(fg_opt);
 
 
 %% Optymalizacja wielokryterialna
-tic01
+tic
 [x_pareto,fval_multi,exitflag_multi,optim_out_multi] = multiobj_optimization_wrapper(x0);
 elapsed_multi=toc;
 %% Wyniki dla zbioru Pareto

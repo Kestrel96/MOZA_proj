@@ -59,7 +59,7 @@ Dodatkowo, w zadaniu pojawiają się ograniczenia nieliniowe związane z wymagan
 	\item \(g_1(\textbf{x}): -(\frac{k_{u0}(\textbf{x})}{k_{u_{min}}}-1) <  0\) \\ Warunek minimalnego wzmocnienia, $k_{umin}=20dB$
 	\item \(g_2(\textbf{x}): -(\frac{{f_g}(\textbf{x})}{f_{g_{min}}}-1)<0\) \\ Warunek minimalnej częstotliwości granicznej, $f_{gmin}=200 MHz$. Częstotliwość graniczna $f_g$ obliczana jest jako częstotliwość,
 dla której wzmocnienie spada o 3 dB względem $ku_0$.
-	\item \(g_3(\textbf{x}): b(\textbf{x})-b_{max}<0\) \\ Ograniczenie podbicia charakterystyki, $b_{max}=1dB$. Podbicie $b(\textbf{x})$ rozumiane jest jako różnica między maksymalnym poziomem wzmocnienia a $k_{u0}$ ((czyli $max(k_{u}(\textbf{x}))-b_{max}$)).Podbicie jest obliczane w Matlabie.
+	\item \(g_3(\textbf{x}): b(\textbf{x})-b_{max}<0\) \\ Ograniczenie podbicia charakterystyki, $b_{max}=1dB$. Podbicie $b(\textbf{x})$ rozumiane jest jako różnica między maksymalnym poziomem wzmocnienia a $k_{u0}$ ((czyli $b(\textbf{x})=max(k_{u}(\textbf{x}))-b_{max}$)).Podbicie jest obliczane w Matlabie.
 
 \end{itemize}
 \subsection{Optymalizacja wielokryterialna}
@@ -88,7 +88,7 @@ Dodatkowo, w zadaniu pojawiają się ograniczenia nieliniowe związane z wymagan
 	\item \(g_1(\textbf{x}): -(\frac{k_{u0}(\textbf{x})}{k_{u_{min}}}-1) <  0\) \\ Warunek minimalnego wzmocnienia, $k_{umin}=20dB$
 	\item \(g_2(\textbf{x}): -(\frac{{f_g}(\textbf{x})}{f_{g_{min}}}-1)<0\) \\ Warunek minimalnej częstotliwości granicznej, $f_{gmin}=200 MHz$. Częstotliwość graniczna $f_g$ obliczana jest jako częstotliwość,
 dla której wzmocnienie spada o 3 dB względem $ku_0$.
-	\item \(g_3(\textbf{x}): b(\textbf{x})-b_{max}<0\) \\ Ograniczenie podbicia charakterystyki, $b_{max}=1dB$. Podbicie $b(\textbf{x})$ rozumiane jest jako różnica między maksymalnym poziomem wzmocnienia a $k_{u0}$ ((czyli $max(k_{u}(\textbf{x}))-b_{max}$)).Podbicie jest obliczane w Matlabie.
+	\item \(g_3(\textbf{x}): b(\textbf{x})-b_{max}<0\) \\ Ograniczenie podbicia charakterystyki, $b_{max}=1dB$. Podbicie $b(\textbf{x})$ rozumiane jest jako różnica między maksymalnym poziomem wzmocnienia a $k_{u0}$ ((czyli $b(\textbf{x})=max(k_{u}(\textbf{x}))-b_{max}$)).Podbicie jest obliczane w Matlabie.
 
 \end{itemize}
 
@@ -131,8 +131,8 @@ Aby potwierdzić, że Matlab i Spice zwracają te same wyniki przeprowadzono sym
 W zadaniu badane są trzy parametry: częstotliwość graniczna, wzmocnienie oraz podbicie charakterystyki.
 
 \subsubsection*{Podbicie $b$}
-Podbicie rozumiane jest jako różnica między wzmocnieniem $k_{u0}$ a maksymalnym wzmocnieniem jakie osiąga charakterystyka ($max(k_{u}(\textbf{x}))-b_{max}$).
-Maksimum charakterystyki jest wyznaczane przez interpolację (wielomian drugiego stopnia). Pozwala to dokładniej ustalić maksynmalne wzmocnienie i wygładza funkcję ograniczeń.
+Podbicie rozumiane jest jako różnica między wzmocnieniem $k_{u0}$ a maksymalnym wzmocnieniem jakie osiąga charakterystyka ($b(\textbf{x})=max(k_{u}(\textbf{x}))-b_{max}$).
+Maksimum charakterystyki jest wyznaczane przez interpolację (wielomian drugiego stopnia). Pozwala to dokładniej ustalić maksymalne wzmocnienie i wygładza funkcję ograniczeń.
 Efekty interpolacji widać na poniższym wykresie:
 \begin{figure}[h]
 	\includegraphics[width=8cm]{graphics/max_ku_interp.png}
@@ -157,33 +157,33 @@ Ponieważ LTSpice zwraca wyniki w postaci punktów, uznano, że wymagana jest in
 
 \subsection{Gładkość funkcji celu i ograniczeń}
 Przyjęto, że funkcja celu, w obrębie odpowiednich wartości elementów układu, jest ciągła. Tak długo, jak w układzie zmieniane są wartości pojemności i rezystancji i
-nie powodują nieprawidłowej pracy układu zawsze możliwe będzie otrzymanie charakterystyki, która, nawet jeśli nie spełnia wymagań projektowych, daje ''sensowne'' wartości paremetrów roboczych (bez dużych skoków
+nie powodują nieprawidłowej pracy układu zawsze możliwe będzie otrzymanie charakterystyki, która, nawet jeśli nie spełnia wymagań projektowych, daje ''sensowne'' wartości parametrów roboczych (bez dużych skoków
 np. wzrost wzmocnienia do 10000 dB).
 
-Funckje ograniczeń i celu mogą być w niektórych przypadkach niegładkie. Może dojść do takiej sytuacji, gdy aktualny zestaw wartości elementów spowoduje powstanie charakterystyki,
+Funkcje ograniczeń i celu mogą być w niektórych przypadkach niegładkie. Może dojść do takiej sytuacji, gdy aktualny zestaw wartości elementów spowoduje powstanie charakterystyki,
 dla której niektóre z parametrów roboczych nie są możliwe do obliczenia lub nie mają fizycznego sensu (np. płaska charakterystyka na poziomie 0 dB spowoduje, że nie istnieje częstotliwość graniczna rozumiana wg. zasad zdefiniowanych
-na początku raportu, funkcja obliczająca zwraca wtedy 0). Punkty przejścia między ""dobrą"" a ""złą"" charakterystyką są właściwie punktami, gdzie funkcja nie jest gładka. Solver fmincon nie spełnia ograniczeń dla każdej iteracji, przez co teoretycznie może zdarzyć się np. płaska charakterystyka, 
-dla której funkcje nie są gładkie. Przeporwadzone próby wykazały jednak, że problem ten zachodzi bardzo rzadko i ma niewielki wpływ na optymalizację.
+na początku raportu, funkcja obliczająca zwraca wtedy wartość NaN). Punkty przejścia między ""dobrą"" a ""złą"" charakterystyką są właściwie punktami, gdzie funkcja nie jest gładka. Solver fmincon nie spełnia ograniczeń dla każdej iteracji, przez co teoretycznie może zdarzyć się np. płaska charakterystyka, 
+dla której funkcje nie są gładkie, jednak wg. dokumentacji, fmincon jest w stanie wrócić z takich punktów do poprawnej pracy. Przeprowadzone próby wykazały jednak, że problem ten zachodzi bardzo rzadko i ma niewielki wpływ na optymalizację.
 
-W przypadku optymalizacji wielokryterialnej zdecydowano się wykorzystać solver paretosearch (wykorzystujacy wewnętrzenie algorytm patternsearch), nigładkgość funkcji celu i ograniczeń nie ma tutaj więc za dużego znaczenia (metoda bezgradientowa).
+W przypadku optymalizacji wielokryterialnej zdecydowano się wykorzystać solver paretosearch (wykorzystujący wewnętrznie algorytm patternsearch), niegładkość funkcji celu i ograniczeń nie ma tutaj więc dużego znaczenia (metoda bezgradientowa).
 \subsection{Opis kodu}
 Dołączony katalog z kodem podzielony został na odpowiednie katalogi dla wyników (results, gdzie zapisany jest workspace z Matlaba i plots, wykresy) i plików dla symulacji(spice).
-W katalogu głównym znajdują się skrypty i m-funckje. W celu weryfikacji poprawności działania kodu można uruchomić skrypt starting\_point.m, który przedstawia wyniki w pkt. początkowym.
+W katalogu głównym znajdują się skrypty i m-funkcje. W celu weryfikacji poprawności działania kodu można uruchomić skrypt starting\_point.m, który przedstawia wyniki w pkt. początkowym.
 
 Aby uruchomić optymalizację należy uruchomić skrypt main.m. Po optymalizacji wyniki zostaną zapisane do odpowiednich folderów.
 
-Aby nie czekać aż optymalizator zakończy pracę (ok. 5 minut) można wczytać gotowe wyniki za pomocą komendy load("results/latest.mat").
+Aby nie czekać aż optymalizator zakończy pracę (ok. 5 minut) można wczytać gotowe wyniki za pomocą komendy load(""'results/latest.mat'"").
 
 \subsubsection*{Opis plików}
 \begin{itemize}
 	\item main.m - główny skrypt realizujący zadanie optymalizacji.
 	\item display\_results.m - Skrypt wyświetlający wyniki optymalizacji. Uruchamiany automatycznie po main.m
 	\item starting\_point.m - Skrypt obliczający wyniki w pkt. startowym. Do weryfikacji działania funkcji.
-	\item optmization\_wrapper.m - funckja będąca ""nakładką"" na optymalizator pozwalającą na współdzielenie
-obliczonych wartości. Funkcja ta wykorzystuja zagnieżdżone funkcje celu i ograniczeń (oraz skalowania). Wszytskie ustawienia (dolne i górne ograniczenia, opcje itp.) znajdują się w tym pliku.
+	\item optmization\_wrapper.m - funkcja będąca ""nakładką"" na optymalizator pozwalającą na współdzielenie między optymalizatorem a funkcjami celu i ograniczeń
+obliczonych wartości. Funkcja ta wykorzystuje zagnieżdżone funkcje celu i ograniczeń (oraz skalowania). Wszystkie ustawienia (dolne i górne ograniczenia, opcje itp.) znajdują się w tym pliku.
 	\item multiobj\_optimization\_wrapper.m - Funkcja będąca ""nakładką"" na optymalizator wielokryterialny. Podobnie jak w wersji jednokryterialnej steruje całym procesem optymalizacji.
-	\item get\_fg.m - Funckja obliczająca częstotliwość graniczną.
-	\item boost.m - Funckja obliczająca podbicie charakterystyki.
+	\item get\_fg.m - Funkcja obliczająca częstotliwość graniczną.
+	\item boost.m - Funkcja obliczająca podbicie charakterystyki.
 	\item extract\_results.m - Funkcja odczytująca dane z pliku output\_results powstającego przez funckję output\_fun.
 	\item modify\_params.m - Funkcja modyfikująca parametry w pliku params.inc
 	\item output\_fun.m - Funkcja wyjściowa dla optymalizatora.
@@ -195,8 +195,7 @@ obliczonych wartości. Funkcja ta wykorzystuja zagnieżdżone funkcje celu i ogr
 \subsection{Algorytm, skalowanie}
 \subsection*{Solver i algorytm optymalizacji jednokryterialnej}
 Jako solver wykorzystano fmincon z domyślnym algorytmem (Interior Point). Zdecydowano się na wykorzystanie
-metod gradientowych, ponieważ założono gładkość funkcji dla danych ograniczeń. Po przeprowadzonyh próbach optymalizacji uznano, że założenie jest słuszne (brak wartości
-NaN i Inf podczas pracy solvera, widoczna poprawa parametrów układu, wyraźna zbieżność).
+metod gradientowych, ponieważ założono gładkość funkcji dla danych ograniczeń. Po przeprowadzonych próbach optymalizacji uznano, że założenie jest słuszne (niegładkość jedynie w punktach nie dających wyników o sensie fizycznym, widoczna poprawa parametrów układu, wyraźna zbieżność).
 
 Po próbach przeprowadzonych w LTSpice ustalono, że niektóre elementy mają większy wpływ na układ niż inne, jednak, przy różnych kombinacjach wartości, wpływ rożnych elementów jest trudny do przewidzenia.
 Stwierdzono np. że zmniejszanie wartości REE1 powoduje wzrost wzmocnienia przy spadku pasma, manipulowanie pojemnością CEE wpływa na pasmo, CG na podbicia itp.
@@ -204,21 +203,21 @@ Ponieważ nie znaleziono jednoznacznej zależności (działanie na kształt algo
 ograniczenia kostkowe parametrów.
 \subsection*{Solver i algorytm dla optymalizacji wielokryterialnej}
 W praktyce ciężko określić co jest ""dobrym"" rozwiązaniem zadania wielokryterialnego. Przeważnie mamy do czynienia z optymalizowaniem parametrów gdzie poprawa jednego powoduj epogorszenie pozostałych.
-Aby znaleźć rozwiążanie zadanego problemu zdecydowano się użyć solvera paretosearch (wykorzystującego algorytm patternsearch) do wyznaczenia zbioru Pareto, ktróy powienien dać wybór w kwesti czy bardziej interesuje użytkownika
+Aby znaleźć rozwiązanie zadanego problemu zdecydowano się użyć solvera paretosearch (wykorzystującego algorytm patternsearch) do wyznaczenia zbioru Pareto, który powinien dać wybór w kwestii czy bardziej interesuje użytkownika
 wzmocnienie czy pasmo. 
 
-Ponieważ patternsearch jest alogrytmem bezgradientowym ewentulany brak gładkości f. celu i ograniczeń nie ma tutaj dużego znaczenia.
+Ponieważ patternsearch jest algorytmem bezgradientowym ewentualny brak gładkości f. celu i ograniczeń nie ma tutaj dużego znaczenia.
 \subsection*{Skalowanie}
 Zarówno wektor wartości elementów jak i funkcja celu zostały przeskalowane.
 
 W przypadku wektora parametrów optymalizowanych zastosowano proste skalowanie do 1 względem punktu startowego $\frac{x}{x_0}$.
-W badanym przypadku wartości są podobnego rzędu (jednostki zostają dopisane dopiero w funkcji modyfikującej plik z parametrami), jednak dla przejrzystości psotawnowiono wykonać
+W badanym przypadku wartości są podobnego rzędu (jednostki zostają dopisane dopiero w funkcji modyfikującej plik z parametrami), jednak dla przejrzystości postanowiono wykonać
 skalowanie wektora względem wektora startowego.
 
 W przypadku funkcji celu iloczyn wzmocnienia i częstotliwości granicznej sięga rzędu $10^9$.
-Aby usprawnić pracę optymalizatora wyjście z zaimplementowanej funkcji celu jest postaci $-log(GBW)$.
+Aby usprawnić pracę optymalizatora wyjście z zaimplementowanej funkcji celu jest postaci $-log_{10}(GBW)$.
 
-W przypadku optymalizacji wielokryterialnej częstoliwość graniczna zwracana jest w postaci $-log(f_g)$.
+W przypadku optymalizacji wielokryterialnej częstotliwość graniczna zwracana jest w postaci $-log_{10}(f_g)$.
 
 
 % \pagebreak

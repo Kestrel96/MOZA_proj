@@ -59,11 +59,11 @@ disp(fg_opt);
 [output_fcn_results,header]=extract_results();
 
 
-%% Optymalizacja wielokryterialna
+%% Optymalizacja wielokryterialna 
 tic
 [x_pareto,fval_multi,exitflag_multi,optim_out_multi] = multiobj_optimization_wrapper(x0);
 elapsed_multi=toc;
-%% Wyniki dla zbioru Pareto
+%% Wyniki dla zbioru Pareto 
 
 for i=1:length(x_pareto)
     out_ac=run_sim(x_pareto(i,:),"kask4_ac");

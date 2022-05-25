@@ -41,7 +41,7 @@ fclose(fileID);
 
 %% Optymalizacja
 tic;
-[x_opt,fval_opt,exitflag,optim_out]=optimization_wrapper(x0,fg_0,ku0);
+[x_opt,fval_opt,exitflag,optim_out]=optimization_wrapper(x0);
 elapsed=toc;
 
 %% Wyniki w pkt. optymalnym

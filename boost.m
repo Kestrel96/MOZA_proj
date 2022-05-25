@@ -1,10 +1,10 @@
-function bst = boost(freq,Aac)
+function [bst, max_f] = boost(freq,Aac)
 %BOOST Obliczenie podbicia
 %   AAc - wektor odpowiedzi AC układu.
 %   Funckja obliczająca podbice.
 %   Podbicie rozumiane jako różnica międzu wzmocnienim
 %   małoczęstotliwościowym ku0 a wzmocnieniem maksymalnym ku_max (ku0-ku)
-Aac=db(abs(Aac));
+%Aac=db(abs(Aac));
 ku0=Aac(1);
 [ku_max, idx_max]=max(Aac);
 points_number=1;
@@ -17,6 +17,7 @@ if((idx_max+points_number < length(freq) && idx_max-points_number>= 1))
     [p,S,mu]=polyfit(x,y,2);
     ku_approx=polyval(p,(x1-mu(1))/mu(2));
     [ku_max, max_approx_idx]=max(ku_approx);
+    max_f=x1(max_approx_idx);
     %      figure
     %      semilogx(freq,Aac,'.','LineWidth',2,'MarkerSize',20);
     %      hold on

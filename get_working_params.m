@@ -12,7 +12,7 @@ Aac=db(abs(Aac));
 
 fg=get_fg(Aac,freq);% cz. graniczna
 ku=Aac(1); %wzmocnienie @ 1kHz
-b=boost(freq,Aac); %podbicie (tylko poglądowo)
+[b,max_f]=boost(freq,Aac); %podbicie
 
 
 %drukowanie wykresów (jeśli potrzebne odkomentować)
@@ -22,9 +22,15 @@ ylim([-10 60])
 xline(fg,"--","Color",'blue')
 yline(abs(Aac(1))-3,"--")
 xline(200e6,"--","Color",'green')
+hold on
+plot([max_f max_f],[ku+b ku]);
+hold on
+scatter([max_f],[ku+b]);
+yline(ku,":",'LineWidth',0.5,'Color',"magenta")
 legend("X","f_{g}")
 title("Wyniki w trakcie optymalizacji")
 xlabel("Częstotliwość [Hz]")
-ylabel("Wzmocnienie")
+ylabel("k_u [dB]")
+hold off
 end
 

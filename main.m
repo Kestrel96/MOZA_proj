@@ -2,6 +2,7 @@ clear
 close all;
 %% Wybór punktu startowego (ku0 oraz fg0 odnoszą się do pkt startowego w całym skrypcie)
 x0=[5 15 320 220 200 45 50];
+x0=[1 10 320 220 200 45 50];
 results_path="results";
 plots_path="plots";
 %% Punkt startowy

@@ -19,6 +19,7 @@ x2xs=@ (xs) xs./x0; %do 1
 xs2x=@ (x) x.*x0; % do wartości rzeczywistych
 %% Ograniczenia górne i dolne
 lb=[0.01 0.1 0.1 0.1 0.1 0.1 0.1]; ub=[2 2 5 5 10 10 10];
+lb=[0.01 0.1 0.1 0.1 0.1 0.1 0.1]; ub=[2 2 5 5 10 10 10];
 %% Uchwyty do funkcji zagnieżdżonych
 fun=@(xs) obj_fun(xs2x(xs)); %uchwyt do f. celu
 constr=@(xs) nonlcon(xs2x(xs)); %uchwy to f. ograniczeń

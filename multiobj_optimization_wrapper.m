@@ -19,18 +19,19 @@ x2xs=@ (xs) xs./x0; %do 1
 xs2x=@ (x) x.*x0; % do wartości rzeczywistych
 %% Ograniczenia górne i dolne
 lb=[0.01 0.1 0.1 0.1 0.1 0.1 0.1]; ub=[2 2 5 5 10 10 10];
+
 %% Uchwyty do funkcji zagnieżdżonych
 fun=@(xs) obj_fun(xs2x(xs)); %uchwyt do f. celu
 constr=@(xs) nonlcon(xs2x(xs)); %uchwy to f. ograniczeń
 %% Opcje optymalizacji
 
-pareto_size=20;
+pareto_size=50;
 opts=optimoptions('paretosearch','Display','iter', 'ParetoSetSize',pareto_size,'MaxTime',1800,'PlotFcn',{'psplotparetof'}, ...
-    'InitialPoints',x2xs(x0)); %zmodyfiokowano długość kroku
+    'InitialPoints',x2xs(x0));
 
 [xs_pareto,fval,exitflag,optim_out] = paretosearch(fun,7,[],[],[],[],lb,ub,constr,opts);
 
-for i=1:paretosize
+for i=1:pareto_size
     x_pareto(i,:)=xs2x(xs_pareto(i,:));
 end
 

@@ -3,8 +3,9 @@ function [bst, max_f] = boost(freq,Aac)
 %   AAc - wektor odpowiedzi AC układu.
 %   Funckja obliczająca podbice.
 %   Podbicie rozumiane jako różnica międzu wzmocnienim
-%   małoczęstotliwościowym ku0 a wzmocnieniem maksymalnym ku_max (ku0-ku)
-%Aac=db(abs(Aac));
+%   małoczęstotliwościowym ku0 a wzmocnieniem maksymalnym ku_max (ku0-ku).
+%   Jeżeli nie da się obliczyć podbicia zwracane jest NaN.
+%   Aac=db(abs(Aac));
 ku0=Aac(1);
 [ku_max, idx_max]=max(Aac);
 points_number=1;
@@ -36,7 +37,7 @@ if((idx_max+points_number < length(freq) && idx_max-points_number>= 1))
 end
 
 max_f=0;
-bst=ku_max-ku0;
+bst=NaN;
 return
 
 end

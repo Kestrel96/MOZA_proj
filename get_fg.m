@@ -1,13 +1,13 @@
 function fg = get_fg(Aac,freq)
 %GET_FG Obliczenie częstotliwości granicznej
 %   Funckja obliczająca wartość fg. W przypadku gdy optymalizator dobierze
-%   parametry tak, zę charakterystyk anie ma fizycznego sensu, fg=0.
+%   parametry tak, zę charakterystyk nie ma fizycznego sensu zwracana jest wartość NaN.
 %   Aac - wektor odpowiedzi AC układu, freq - wektor częstotliwości
 
 %zabezpieczenie przed nieprawidłową charakterystyką
 ku0=abs(Aac(1));
 if(ku0<3)
-    fg=0;
+    fg=NaN;
     return
 end
 ku=ku0-3; %wzmocnienie na poziomie -3dB
@@ -56,7 +56,7 @@ end
 
 
 if (isempty(fg))
-    fg=0;
+    fg=NaN;
 end
 
 end

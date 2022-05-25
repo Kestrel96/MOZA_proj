@@ -18,10 +18,16 @@ text(10e4,ku_opt,sprintf("ku_{opt}=%0.2f",ku_opt),'Color','red','VerticalAlignme
 xline(fg_opt,"--","Color",'red','Label',sprintf("fg_{opt}=%e",fg_opt),'LabelVerticalAlignment','top')
 yline(abs(Aac_opt(1))-3,"-.",'Color','red','Label','k_{uopt(-3dB)}')
 xline(200e6,"Color",'green','Label',"200 MHz",'LabelVerticalAlignment','middle')
-legend("Punkt startowy","f_{g0}","k_{u0(3dB)}","Punkt optymalny","f_{gopt}","k_{uopt(3dB)}","200 MHz",'Location','best')
 title("Porównanie wyników w pkt. początkowym i optymalnym")
 xlabel("f [Hz]")
 ylabel("k_u [dB]")
+hold on
+x = [1e3 1e3 200e6 200e6];
+y = [-100 20 20 -100];
+patch(x,y,'red','FaceAlpha',0.3,'EdgeColor','red','LineStyle',':');
+ylim([-10 ku0+15]);
+legend("Punkt startowy","f_{g0}","k_{u0(3dB)}","Punkt optymalny","f_{gopt}","k_{uopt(3dB)}","200 MHz","Ograniczenia",'Location','best')
+
 
 text(1e4,15,sprintf("^{GBW_{opt}}/_{GBW_0}=%0.3f",GBW_opt/GBW0));
 comparison_path=plots_path+"/comparison.png";

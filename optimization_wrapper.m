@@ -1,4 +1,4 @@
-function [x_opt,fval_opt,exitflag,optim_out] = optimization_wrapper(x0,fg_0,ku_0)
+function [x_opt,fval_opt,exitflag,optim_out] = optimization_wrapper(x0)
 %OPTIMIZATION_WRAPPER Funckja uruchamiająca i przeporwadzająca
 %optymalizację
 %   Funkcja wykorzystuje mechanizm funkcji zagnieżdżonych do przekazywania

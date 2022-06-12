@@ -5,7 +5,7 @@ function [bst, max_f] = boost(freq,Aac)
 %   Podbicie rozumiane jako różnica międzu wzmocnienim
 %   małoczęstotliwościowym ku0 a wzmocnieniem maksymalnym ku_max (ku0-ku).
 %   Jeżeli nie da się obliczyć podbicia zwracane jest NaN.
-%   Aac=db(abs(Aac));
+%   Wartość Aac w dB.
 ku0=Aac(1);
 [ku_max, idx_max]=max(Aac);
 points_number=1;

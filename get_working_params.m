@@ -4,8 +4,8 @@ function [fg, ku, b] = get_working_params(x)
     % Symulacja i pobranie wyników.
     out_ac = run_sim(x, "kask4_ac");
     freq = out_ac.freq_vect;
-    Aac = out_ac.variable_mat(6, :);
-    Aac = db(abs(Aac));
+    Aac_vv = out_ac.variable_mat(6, :);
+    Aac = db(abs(Aac_vv));
 
     fg = get_fg(Aac, freq); % cz. graniczna
     ku = Aac(1); %wzmocnienie @ 1kHz

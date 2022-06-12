@@ -61,6 +61,11 @@ plot(fg_0,ku0,'x','MarkerSize',15,'Color','green','LineWidth',3);
 text(fg_0,ku0,"Punkt startowy",'HorizontalAlignment','center','VerticalAlignment','top');
 xlabel("f [Hz]");
 ylabel("k_u [dB]");
+yline(20,"-","k_{uMin}","LineWidth",2,"Color",'r',"LabelHorizontalAlignment","center");
+xline(200e6,"-","f_{gMin}","LineWidth",2,"Color",'r',"LabelVerticalAlignment","middle");
+xlim([190e6 1000e6])
+ylim([19 40])
+
 hold off
 saveas(pareto_figure,'plots/pareto.png')
 

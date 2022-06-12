@@ -5,3 +5,5 @@
 *.net
 output_results
 *.bat
+*.zip
+.vscode
